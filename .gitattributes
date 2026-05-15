@@ -1,0 +1,40 @@
+# Normalize line endings
+* text=auto
+
+# Source code
+*.php text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.vue text eol=lf
+*.blade.php text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.env.example text eol=lf
+
+# Binary assets — mark as binary to prevent line-ending corruption
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.zip binary
+
+# Lock files — generated, treat as binary
+composer.lock binary
+package-lock.json binary
+
+# Build artifacts — binary despite .js/.css extension
+public/build/** binary
+
+# Shell scripts need LF
+*.sh text eol=lf
+artisan text eol=lf

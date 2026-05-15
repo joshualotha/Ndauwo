@@ -1,0 +1,116 @@
+{
+  "_book-open-IrOFOYWV.js": {
+    "file": "assets/book-open-IrOFOYWV.js",
+    "name": "book-open",
+    "imports": [
+      "resources/js/main.js"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DuzDPs8w.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/assets/ndauwologo.png": {
+    "file": "assets/ndauwologo-yJRfnJ45.png",
+    "src": "resources/js/assets/ndauwologo.png"
+  },
+  "resources/js/main.js": {
+    "file": "assets/main-Ch-HgV4V.js",
+    "name": "main",
+    "src": "resources/js/main.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/views/SafariCategoryIndexView.vue",
+      "resources/js/views/planning/AccommodationStylesView.vue",
+      "resources/js/views/planning/VisaEntryView.vue",
+      "resources/js/views/planning/HealthSafetyView.vue",
+      "resources/js/views/planning/PackingListView.vue",
+      "resources/js/views/planning/CulturalEtiquetteView.vue"
+    ],
+    "css": [
+      "assets/main-DckQO8TX.css"
+    ],
+    "assets": [
+      "assets/ndauwologo-yJRfnJ45.png"
+    ]
+  },
+  "resources/js/views/SafariCategoryIndexView.vue": {
+    "file": "assets/SafariCategoryIndexView-BX9uKOSI.js",
+    "name": "SafariCategoryIndexView",
+    "src": "resources/js/views/SafariCategoryIndexView.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/main.js"
+    ],
+    "css": [
+      "assets/SafariCategoryIndexView-B0Npj28_.css"
+    ]
+  },
+  "resources/js/views/planning/AccommodationStylesView.vue": {
+    "file": "assets/AccommodationStylesView-D3EX82Ay.js",
+    "name": "AccommodationStylesView",
+    "src": "resources/js/views/planning/AccommodationStylesView.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/main.js"
+    ],
+    "css": [
+      "assets/AccommodationStylesView-DvwVNNYT.css"
+    ]
+  },
+  "resources/js/views/planning/CulturalEtiquetteView.vue": {
+    "file": "assets/CulturalEtiquetteView-C77ubrfz.js",
+    "name": "CulturalEtiquetteView",
+    "src": "resources/js/views/planning/CulturalEtiquetteView.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/main.js",
+      "_book-open-IrOFOYWV.js"
+    ],
+    "css": [
+      "assets/CulturalEtiquetteView-fXSSMiDs.css"
+    ]
+  },
+  "resources/js/views/planning/HealthSafetyView.vue": {
+    "file": "assets/HealthSafetyView-D4H24FiT.js",
+    "name": "HealthSafetyView",
+    "src": "resources/js/views/planning/HealthSafetyView.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/main.js"
+    ],
+    "css": [
+      "assets/HealthSafetyView-D_rkASSG.css"
+    ]
+  },
+  "resources/js/views/planning/PackingListView.vue": {
+    "file": "assets/PackingListView-CJCP_h1J.js",
+    "name": "PackingListView",
+    "src": "resources/js/views/planning/PackingListView.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/main.js"
+    ],
+    "css": [
+      "assets/PackingListView-Bif1itUI.css"
+    ]
+  },
+  "resources/js/views/planning/VisaEntryView.vue": {
+    "file": "assets/VisaEntryView-hyxHKLUA.js",
+    "name": "VisaEntryView",
+    "src": "resources/js/views/planning/VisaEntryView.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/main.js",
+      "_book-open-IrOFOYWV.js"
+    ],
+    "css": [
+      "assets/VisaEntryView-D8v634r0.css"
+    ]
+  }
+}
