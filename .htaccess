@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # If the request already goes to /public/, stop here to prevent infinite loops
+    RewriteRule ^public/ - [L]
+
+    # Redirect everything else into public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "\.(env|json|lock|md|yml|xml|log|sqlite)$">
+    Require all denied
+</FilesMatch>
