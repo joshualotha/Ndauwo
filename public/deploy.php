@@ -101,22 +101,56 @@ echo "<div class='output'>Project root: {$projectRoot}\nPHP: {$php}\nComposer: {
 $allOK = true;
 $chdir = "cd " . escapeshellarg($projectRoot) . " && ";
 
-// Step 1: Git pull
-$allOK = runCommand("git pull origin main", "{$chdir}{$git} pull origin main 2>&1") && $allOK;
+// Step 1: Create .env from .env.example if it doesn't exist (it's gitignored)
+$envFile = $projectRoot . '/.env';
+$envExample = $projectRoot . '/.env.example';
+if (!file_exists($envFile) && file_exists($envExample)) {
+    $copied = copy($envExample, $envFile);
+    if ($copied) {
+        echo "<div class='step'>Created .env from .env.example</div>";
+        echo "<div class='success'>✓ Done — .env created. You MUST edit it with your MySQL credentials and APP_URL.</div>";
+        echo "<div class='warn'>⚠ Edit .env now: DB_CONNECTION=mysql, DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD, APP_URL</div>";
+    } else {
+        echo "<div class='step'>Failed to create .env from .env.example</div>";
+        echo "<div class='error'>✗ Could not copy .env.example → .env. Check file permissions.</div>";
+        $allOK = false;
+    }
+} else if (file_exists($envFile)) {
+    echo "<div class='step'>.env already exists — skipping creation</div>";
+    echo "<div class='success'>✓ Done</div>";
+}
 
-// Step 2: Composer install (production-safe: no dev deps)
-$allOK = runCommand("composer install (no dev)", "{$chdir}{$composer} install --no-dev --optimize-autoloader --no-interaction 2>&1") && $allOK;
+// Step 2: Git pull (skip if .env creation failed)
+if ($allOK) {
+    $allOK = runCommand("git pull origin main", "{$chdir}{$git} pull origin main 2>&1") && $allOK;
+}
 
-// Step 3: Run database migrations
-$allOK = runCommand("php artisan migrate", "{$chdir}{$php} artisan migrate --force --no-interaction 2>&1") && $allOK;
+// Step 3: Composer install (production-safe: no dev deps)
+if ($allOK) {
+    $allOK = runCommand("composer install (no dev)", "{$chdir}{$composer} install --no-dev --optimize-autoloader --no-interaction 2>&1") && $allOK;
+}
 
-// Step 4: Laravel optimize
-$allOK = runCommand("php artisan optimize", "{$chdir}{$php} artisan optimize 2>&1") && $allOK;
+// Step 4: Generate application key (critical — Laravel won't boot without it)
+if ($allOK) {
+    $allOK = runCommand("php artisan key:generate --force", "{$chdir}{$php} artisan key:generate --force --no-interaction 2>&1") && $allOK;
+}
 
-// Step 5: Cache configuration
-$allOK = runCommand("php artisan config:cache", "{$chdir}{$php} artisan config:cache 2>&1") && $allOK;
-$allOK = runCommand("php artisan route:cache", "{$chdir}{$php} artisan route:cache 2>&1") && $allOK;
-$allOK = runCommand("php artisan view:cache", "{$chdir}{$php} artisan view:cache 2>&1") && $allOK;
+// Step 5: Run database migrations
+if ($allOK) {
+    $allOK = runCommand("php artisan migrate", "{$chdir}{$php} artisan migrate --force --no-interaction 2>&1") && $allOK;
+}
+
+// Step 6: Laravel optimize
+if ($allOK) {
+    $allOK = runCommand("php artisan optimize", "{$chdir}{$php} artisan optimize 2>&1") && $allOK;
+}
+
+// Step 7: Cache configuration
+if ($allOK) {
+    $allOK = runCommand("php artisan config:cache", "{$chdir}{$php} artisan config:cache 2>&1") && $allOK;
+    $allOK = runCommand("php artisan route:cache", "{$chdir}{$php} artisan route:cache 2>&1") && $allOK;
+    $allOK = runCommand("php artisan view:cache", "{$chdir}{$php} artisan view:cache 2>&1") && $allOK;
+}
 
 // ============================================================
 // 6. FINAL STATUS
