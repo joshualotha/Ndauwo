@@ -122,6 +122,9 @@ if (file_exists($dbPath)) {
 echo "<h2>Step 3: Boot Laravel</h2>";
 
 try {
+    // Load Composer autoloader FIRST (bootstrap/app.php needs it)
+    require $projectRoot . '/vendor/autoload.php';
+    
     // Load the application
     $app = require $projectRoot . '/bootstrap/app.php';
     $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
