@@ -17,10 +17,10 @@
 /node_modules
 /public/hot
 /public/storage
+/vendor/composer/tmp-*.zip~
 /storage/*.key
 /storage/pail
 /storage/app/public/*
-/vendor
 Homestead.json
 Homestead.yaml
 Thumbs.db

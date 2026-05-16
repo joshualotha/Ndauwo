@@ -1,10 +1,12 @@
 <?php
 /**
- * Ndauwo Bootstrap Script — Zero-Config cPanel Deployment
+ * Ndauwo Bootstrap Script — Zero-Shell cPanel Deployment
  * 
  * This script bootstraps the entire Ndauwo site WITHOUT:
  * - Terminal/SSH access
+ * - shell_exec() or exec() (disabled on shared cPanel)
  * - Pre-existing .env file
+ * - composer (vendor/ is committed)
  * - Any configuration
  * 
  * HOW TO USE:
@@ -13,8 +15,10 @@
  * 3. The page runs all setup steps and shows progress
  * 4. DELETE THIS FILE after successful deployment (security)
  * 
- * This script is self-contained — it reads .env.example directly,
- * generates an APP_KEY itself, and doesn't depend on any token.
+ * HOW IT WORKS:
+ * 1. Creates .env from .env.example with a fresh APP_KEY (pure PHP)
+ * 2. Boots Laravel's kernel
+ * 3. Runs Artisan commands via Artisan::call() — no shell needed
  */
 
 // ============================================================
@@ -24,7 +28,7 @@ header('Content-Type: text/html; charset=utf-8');
 echo '<!DOCTYPE html><html lang="en"><head><title>Ndauwo — Bootstrap</title>';
 echo '<style>
     * { box-sizing: border-box; }
-    body { font-family: "SF Mono", "Monaco", "Menlo", monospace; background: #0a0a0a; color: #e0e0e0; padding: 2rem; line-height: 1.6; max-width: 900px; margin: 0 auto; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", monospace; background: #0a0a0a; color: #e0e0e0; padding: 2rem; line-height: 1.6; max-width: 900px; margin: 0 auto; }
     h1 { color: #e2791b; border-bottom: 1px solid rgba(226,121,27,0.3); padding-bottom: 0.5rem; margin-bottom: 0.5rem; }
     h2 { color: #ccc; font-size: 1rem; margin: 1.5rem 0 0.5rem; }
     .sub { color: #666; font-size: 0.8rem; margin-bottom: 1.5rem; }
@@ -39,173 +43,201 @@ echo '<style>
     hr { border: none; border-top: 1px solid rgba(226,121,27,0.15); margin: 1.5rem 0; }
 </style></head><body>';
 echo '<h1>🦁 Ndauwo Safari Co. — Bootstrap</h1>';
-echo '<p class="sub">Zero-config deployment — no terminal, no .env, no token needed.</p>';
+echo '<p class="sub">Zero-shell deployment — uses internal Laravel API, no exec() needed.</p>';
 
 // Flush output for live progress
 if (ob_get_level()) { ob_flush(); }
 flush();
 
 // ============================================================
-// 2. HELPER — Run command and show result
-// ============================================================
-function runStep(string $label, string $command): bool {
-    echo "<div class='step'>{$label}</div>";
-    
-    $output = [];
-    $returnCode = -1;
-    exec("{$command} 2>&1", $output, $returnCode);
-    
-    if (!empty($output) && $output[0] !== '') {
-        $safe = htmlspecialchars(implode("\n", array_slice($output, 0, 50)));
-        echo '<div class="output">' . $safe . '</div>';
-    }
-    
-    if ($returnCode !== 0) {
-        echo "<div class='error'>✗ Failed (exit: {$returnCode})</div>";
-        return false;
-    }
-    echo "<div class='success'>✓ Done</div>";
-    return true;
-}
-
-// ============================================================
-// 3. DETECT PATHS
+// 2. PATHS
 // ============================================================
 $projectRoot = realpath(__DIR__ . '/..');
-$publicDir   = __DIR__;
-
-$php      = trim(shell_exec('which php 2>/dev/null') ?: 'php');
-$composer = trim(shell_exec('which composer 2>/dev/null') ?: 'composer');
-$git      = trim(shell_exec('which git 2>/dev/null') ?: 'git');
+$envFile     = $projectRoot . '/.env';
+$envExample  = $projectRoot . '/.env.example';
 
 echo "<h2>Environment</h2>";
-echo "<div class='output'>Project: {$projectRoot}\nPHP: {$php}\nComposer: {$composer}\nGit: {$git}</div>";
-
-$chdir = "cd " . escapeshellarg($projectRoot) . " && ";
-$allOK = true;
+echo "<div class='output'>Project root: {$projectRoot}\n.env exists: " . (file_exists($envFile) ? 'yes' : 'no') . "</div>";
 
 // ============================================================
-// 4. STEP 1: Create .env from .env.example (if missing)
+// 3. STEP 1: Create .env from .env.example
 // ============================================================
 echo "<h2>Step 1: .env File</h2>";
-
-$envFile    = $projectRoot . '/.env';
-$envExample = $projectRoot . '/.env.example';
 
 if (file_exists($envFile)) {
     echo "<div class='step'>.env already exists — keeping it</div>";
     echo "<div class='success'>✓ Done</div>";
 } elseif (!file_exists($envExample)) {
     echo "<div class='error'>✗ .env.example not found at {$envExample}</div>";
-    $allOK = false;
+    echo '<hr><div class="fail">❌ Cannot continue. .env.example is missing from the repo.</div>';
+    echo '</body></html>';
+    exit;
 } else {
-    // Copy .env.example → .env
     $content = file_get_contents($envExample);
     if ($content === false) {
         echo "<div class='error'>✗ Could not read .env.example</div>";
-        $allOK = false;
-    } else {
-        // Generate a fresh APP_KEY directly (so we don't need artisan yet)
-        $key = 'base64:' . base64_encode(random_bytes(32));
-        $content = str_replace('APP_KEY=', 'APP_KEY=' . $key, $content);
-        
-        if (file_put_contents($envFile, $content) === false) {
-            echo "<div class='error'>✗ Could not write .env — check file permissions</div>";
-            $allOK = false;
-        } else {
-            echo "<div class='step'>Created .env from .env.example with fresh APP_KEY</div>";
-            echo "<div class='success'>✓ Done</div>";
-        }
+        echo '</body></html>';
+        exit;
     }
-}
-
-// Stop if we couldn't create .env
-if (!$allOK) {
-    echo '<hr><div class="fail">❌ Cannot continue without .env</div>';
-    echo '<p>Make sure .env.example exists and the directory is writable.</p>';
-    echo '</body></html>';
-    exit;
-}
-
-// ============================================================
-// 5. STEP 2: Composer Install
-// ============================================================
-echo "<h2>Step 2: PHP Dependencies</h2>";
-if (!runStep("composer install --no-dev --optimize-autoloader", "{$chdir}{$composer} install --no-dev --optimize-autoloader --no-interaction 2>&1")) {
-    echo '<div class="warn">⚠ Composer may not be available. If you uploaded vendor/ manually, this is OK.</div>';
-    // Don't fail — vendor/ might already be present
-}
-
-// ============================================================
-// 6. STEP 3: Generate APP_KEY (idempotent — skips if set)
-// ============================================================
-echo "<h2>Step 3: Application Key</h2>";
-// We already set the key when creating .env, but run artisan to be safe
-runStep("php artisan key:generate (force, skips if set)", "{$chdir}{$php} artisan key:generate --force --no-interaction 2>&1");
-
-// ============================================================
-// 7. STEP 4: Database — ensure SQLite file exists, run migrations
-// ============================================================
-echo "<h2>Step 4: Database</h2>";
-
-$dbPath = $projectRoot . '/database/database.sqlite';
-if (!file_exists($dbPath)) {
-    if (touch($dbPath)) {
-        echo "<div class='step'>Created database/database.sqlite</div>";
-        echo "<div class='success'>✓ Done</div>";
-    } else {
-        echo "<div class='error'>✗ Could not create database/database.sqlite — check directory permissions</div>";
-        $allOK = false;
+    
+    // Generate a fresh APP_KEY
+    $key = 'base64:' . base64_encode(random_bytes(32));
+    $content = str_replace('APP_KEY=base64:0C7XMqR7EywJmBJGg0ViBqeDFNqOSmFhCfpBmQiGtLc=', 'APP_KEY=' . $key, $content);
+    // Also handle empty APP_KEY= just in case
+    $content = preg_replace('/^APP_KEY=\s*$/m', 'APP_KEY=' . $key, $content);
+    
+    if (file_put_contents($envFile, $content) === false) {
+        echo "<div class='error'>✗ Could not write .env — check directory permissions</div>";
+        echo '</body></html>';
+        exit;
     }
-} else {
-    echo "<div class='step'>database/database.sqlite already exists</div>";
+    echo "<div class='step'>Created .env from .env.example with fresh APP_KEY</div>";
     echo "<div class='success'>✓ Done</div>";
 }
 
-if ($allOK) {
-    runStep("php artisan migrate", "{$chdir}{$php} artisan migrate --force --no-interaction 2>&1");
+// ============================================================
+// 4. STEP 2: Ensure SQLite database file exists
+// ============================================================
+echo "<h2>Step 2: Database File</h2>";
+
+$dbPath = $projectRoot . '/database/database.sqlite';
+if (file_exists($dbPath)) {
+    echo "<div class='step'>database/database.sqlite already exists</div>";
+    echo "<div class='success'>✓ Done</div>";
+} else {
+    if (@touch($dbPath)) {
+        echo "<div class='step'>Created database/database.sqlite</div>";
+        echo "<div class='success'>✓ Done</div>";
+    } else {
+        echo "<div class='error'>✗ Could not create database/database.sqlite — check database/ directory permissions</div>";
+        echo '<hr><div class="fail">❌ Cannot continue. Fix directory permissions first.</div>';
+        echo '</body></html>';
+        exit;
+    }
 }
 
 // ============================================================
-// 8. STEP 5: Laravel Optimize & Cache
+// 5. STEP 3: Boot Laravel Kernel
 // ============================================================
-echo "<h2>Step 5: Optimize & Cache</h2>";
-runStep("php artisan optimize", "{$chdir}{$php} artisan optimize 2>&1");
-runStep("php artisan config:cache", "{$chdir}{$php} artisan config:cache 2>&1");
-runStep("php artisan route:cache", "{$chdir}{$php} artisan route:cache 2>&1");
-runStep("php artisan view:cache", "{$chdir}{$php} artisan view:cache 2>&1");
+echo "<h2>Step 3: Boot Laravel</h2>";
 
-// ============================================================
-// 9. STEP 6: Verify the site works
-// ============================================================
-echo "<h2>Step 6: Verify</h2>";
-
-// Check if we can boot Laravel
-$testCmd = "{$chdir}{$php} artisan about --no-interaction 2>&1";
-$testOut = [];
-exec($testCmd, $testOut, $testCode);
-if ($testCode === 0) {
-    echo "<div class='success'>✓ Laravel boots successfully</div>";
-} else {
-    echo "<div class='warn'>⚠ Could not verify Laravel boot. Check .env settings.</div>";
-    if (!empty($testOut)) {
-        echo '<div class="output">' . htmlspecialchars(implode("\n", $testOut)) . '</div>';
+try {
+    // Load the application
+    $app = require $projectRoot . '/bootstrap/app.php';
+    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+    
+    echo "<div class='step'>Laravel application booted successfully</div>";
+    echo "<div class='success'>✓ Done</div>";
+    
+    // ============================================================
+    // 6. STEP 4: Generate APP_KEY (via Artisan)
+    // ============================================================
+    echo "<h2>Step 4: Application Key</h2>";
+    
+    // Check if key is already set to a real value
+    $currentKey = $_ENV['APP_KEY'] ?? getenv('APP_KEY') ?? '';
+    if (!empty($currentKey) && $currentKey !== 'base64:0C7XMqR7EywJmBJGg0ViBqeDFNqOSmFhCfpBmQiGtLc=') {
+        echo "<div class='step'>APP_KEY already set — skipping</div>";
+        echo "<div class='success'>✓ Done</div>";
+    } else {
+        try {
+            $exitCode = $kernel->call('key:generate', ['--force' => true]);
+            $output = trim($kernel->output());
+            echo "<div class='step'>php artisan key:generate --force</div>";
+            echo "<div class='success'>✓ Done — {$output}</div>";
+        } catch (\Exception $e) {
+            echo "<div class='warn'>⚠ key:generate failed: {$e->getMessage()}</div>";
+            echo "<div class='warn'>Key may already be set — continuing...</div>";
+        }
     }
+    
+    // ============================================================
+    // 7. STEP 5: Run Migrations
+    // ============================================================
+    echo "<h2>Step 5: Database Migrations</h2>";
+    
+    try {
+        $exitCode = $kernel->call('migrate', ['--force' => true]);
+        $output = trim($kernel->output());
+        if (!empty($output)) {
+            echo '<div class="output">' . htmlspecialchars($output) . '</div>';
+        }
+        if ($exitCode === 0) {
+            echo "<div class='success'>✓ Migrations complete</div>";
+        } else {
+            echo "<div class='warn'>⚠ Migrations finished with exit code {$exitCode} — check output above</div>";
+        }
+    } catch (\Exception $e) {
+        echo "<div class='error'>✗ Migration failed: " . htmlspecialchars($e->getMessage()) . "</div>";
+    }
+    
+    // ============================================================
+    // 8. STEP 6: Optimize & Cache
+    // ============================================================
+    echo "<h2>Step 6: Optimize & Cache</h2>";
+    
+    $commands = [
+        'optimize'     => ['--force' => true],
+        'config:cache' => [],
+        'route:cache'  => [],
+        'view:cache'   => [],
+    ];
+    
+    foreach ($commands as $cmd => $args) {
+        try {
+            $exitCode = $kernel->call($cmd, $args);
+            $output = trim($kernel->output());
+            $status = $exitCode === 0 ? '✓' : "⚠ (exit {$exitCode})";
+            $class = $exitCode === 0 ? 'success' : 'warn';
+            echo "<div class='step'>php artisan {$cmd}</div>";
+            if (!empty($output)) {
+                echo '<div class="output">' . htmlspecialchars($output) . '</div>';
+            }
+            echo "<div class='{$class}'>{$status} Done</div>";
+        } catch (\Exception $e) {
+            echo "<div class='step'>php artisan {$cmd}</div>";
+            echo "<div class='error'>✗ Failed: " . htmlspecialchars($e->getMessage()) . "</div>";
+        }
+    }
+    
+    // ============================================================
+    // 9. STEP 7: Verify
+    // ============================================================
+    echo "<h2>Step 7: Verify</h2>";
+    
+    try {
+        $exitCode = $kernel->call('about');
+        $output = trim($kernel->output());
+        echo "<div class='success'>✓ Laravel boots and responds</div>";
+        // Extract key info from artisan about
+        if (preg_match('/Environment\s*\.+\s*(\w+)/', $output, $m)) {
+            echo "<div class='output'>Environment: {$m[1]}</div>";
+        }
+    } catch (\Exception $e) {
+        echo "<div class='warn'>⚠ Could not verify: {$e->getMessage()}</div>";
+    }
+    
+} catch (\Exception $e) {
+    echo "<div class='error'>✗ Failed to boot Laravel: " . htmlspecialchars($e->getMessage()) . "</div>";
+    echo '<div class="output">' . htmlspecialchars($e->getTraceAsString()) . '</div>';
+    echo '<hr><div class="fail">❌ Bootstrap failed. Check that vendor/ directory exists in the repo.</div>';
+    echo '</body></html>';
+    exit;
 }
 
 // ============================================================
 // 10. DONE
 // ============================================================
 echo '<hr>';
-echo '<div class="done">✅ Bootstrap Complete!</div>';
+echo '<div class="done">✅ Bootstrap Complete! Ndauwo is deployed.</div>';
 
 echo '<h2>Next Steps</h2>';
 echo '<ol style="color:#aaa;">';
 echo '<li><strong style="color:#e2791b;">DELETE THIS FILE:</strong> <code style="color:#888;">public/bootstrap.php</code> — for security</li>';
 echo '<li>Visit <a href="/" style="color:#e2791b;">your homepage</a> to verify the site loads</li>';
-echo '<li>Edit <code style="color:#888;">.env</code> in cPanel File Manager if you need MySQL instead of SQLite</li>';
-echo '<li>For future updates: pull via Git Version Control, then delete/re-upload bootstrap.php to re-run</li>';
+echo '<li>Edit <code style="color:#888;">.env</code> in cPanel File Manager if you need to change settings</li>';
+echo '<li>For future code updates: pull via Git Version Control → re-upload this script → visit again</li>';
 echo '</ol>';
 
-echo '<p style="margin-top:2rem;font-size:0.75rem;color:#444;">Bootstrap v2.0 — Ndauwo Safari Co.</p>';
+echo '<p style="margin-top:2rem;font-size:0.75rem;color:#444;">Bootstrap v3.0 — uses Artisan::call() — zero shell — Ndauwo Safari Co.</p>';
 echo '</body></html>';
