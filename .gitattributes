@@ -27,6 +27,7 @@
 *.ttf binary
 *.eot binary
 *.zip binary
+*.sqlite binary
 
 # Lock files — generated, treat as binary
 composer.lock binary

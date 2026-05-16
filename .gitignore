@@ -6,7 +6,6 @@
 .phpactor.json
 .phpunit.result.cache
 *.py
-*.sqlite
 /.fleet
 /.idea
 /.nova
