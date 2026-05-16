@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://ndauwo.com/api/sitemap.xml
+Sitemap: https://ndauwosafaris.com/api/sitemap.xml

@@ -5,7 +5,7 @@
  * Purpose: Deploy updates from GitHub to cPanel WITHOUT terminal/SSH access.
  * 
  * HOW TO USE (cPanel):
- * 1. Visit: https://ndauwo.com/deploy.php?token=YOUR_SECRET_TOKEN
+ * 1. Visit: https://ndauwosafaris.com/deploy.php?token=YOUR_SECRET_TOKEN
  * 2. Set DEPLOY_TOKEN in .env (generate: php artisan tinker --execute="echo bin2hex(random_bytes(16));")
  * 3. This script runs: git pull → composer install → artisan commands
  * 
@@ -108,8 +108,8 @@ if (!file_exists($envFile) && file_exists($envExample)) {
     $copied = copy($envExample, $envFile);
     if ($copied) {
         echo "<div class='step'>Created .env from .env.example</div>";
-        echo "<div class='success'>✓ Done — .env created. You MUST edit it with your MySQL credentials and APP_URL.</div>";
-        echo "<div class='warn'>⚠ Edit .env now: DB_CONNECTION=mysql, DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD, APP_URL</div>";
+        echo "<div class='success'>✓ Done — .env created with SQLite as default (works out of the box).</div>";
+        echo "<div class='warn'>⚠ Verify .env: APP_URL=https://ndauwosafaris.com (edit if different). To use MySQL, set DB_CONNECTION=mysql + credentials.</div>";
     } else {
         echo "<div class='step'>Failed to create .env from .env.example</div>";
         echo "<div class='error'>✗ Could not copy .env.example → .env. Check file permissions.</div>";
