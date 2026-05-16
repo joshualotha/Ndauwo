@@ -96,24 +96,33 @@ if (file_exists($envFile)) {
 }
 
 // ============================================================
-// 4. STEP 2: Ensure SQLite database file exists
+// 4. STEP 2: Ensure SQLite database file exists (fresh, clean slate)
 // ============================================================
 echo "<h2>Step 2: Database File</h2>";
 
 $dbPath = $projectRoot . '/database/database.sqlite';
-if (file_exists($dbPath)) {
-    echo "<div class='step'>database/database.sqlite already exists</div>";
+
+// Delete old database and journal files for a clean slate
+// This ensures git pull never conflicts on database/database.sqlite
+foreach ([$dbPath, $dbPath . '-wal', $dbPath . '-shm'] as $file) {
+    if (file_exists($file)) {
+        if (@unlink($file)) {
+            echo "<div class='step'>Removed old: " . basename($file) . "</div>";
+        } else {
+            echo "<div class='warn'>⚠ Could not remove " . basename($file) . " — continuing anyway</div>";
+        }
+    }
+}
+
+// Create fresh database file
+if (@touch($dbPath)) {
+    echo "<div class='step'>Created fresh database/database.sqlite</div>";
     echo "<div class='success'>✓ Done</div>";
 } else {
-    if (@touch($dbPath)) {
-        echo "<div class='step'>Created database/database.sqlite</div>";
-        echo "<div class='success'>✓ Done</div>";
-    } else {
-        echo "<div class='error'>✗ Could not create database/database.sqlite — check database/ directory permissions</div>";
-        echo '<hr><div class="fail">❌ Cannot continue. Fix directory permissions first.</div>';
-        echo '</body></html>';
-        exit;
-    }
+    echo "<div class='error'>✗ Could not create database/database.sqlite — check database/ directory permissions</div>";
+    echo '<hr><div class="fail">❌ Cannot continue. Fix directory permissions first.</div>';
+    echo '</body></html>';
+    exit;
 }
 
 // ============================================================
@@ -175,7 +184,27 @@ try {
     }
     
     // ============================================================
-    // 8. STEP 6: Optimize & Cache
+    // 8. STEP 5.5: Run Database Seeders
+    // ============================================================
+    echo "<h2>Step 5.5: Seed Data</h2>";
+    
+    try {
+        $exitCode = $kernel->call('db:seed', ['--force' => true]);
+        $output = trim($kernel->output());
+        if (!empty($output)) {
+            echo '<div class="output">' . htmlspecialchars($output) . '</div>';
+        }
+        if ($exitCode === 0) {
+            echo "<div class='success'>✓ Seeders complete — destinations, packages, gallery, reviews, settings loaded</div>";
+        } else {
+            echo "<div class='warn'>⚠ Seeders finished with exit code {$exitCode} — check output above</div>";
+        }
+    } catch (\Exception $e) {
+        echo "<div class='error'>✗ Seeding failed: " . htmlspecialchars($e->getMessage()) . "</div>";
+    }
+    
+    // ============================================================
+    // 9. STEP 6: Optimize & Cache
     // ============================================================
     echo "<h2>Step 6: Optimize & Cache</h2>";
     
@@ -242,5 +271,5 @@ echo '<li>Edit <code style="color:#888;">.env</code> in cPanel File Manager if y
 echo '<li>For future code updates: pull via Git Version Control → re-upload this script → visit again</li>';
 echo '</ol>';
 
-echo '<p style="margin-top:2rem;font-size:0.75rem;color:#444;">Bootstrap v3.0 — uses Artisan::call() — zero shell — Ndauwo Safari Co.</p>';
+echo '<p style="margin-top:2rem;font-size:0.75rem;color:#444;">Bootstrap v4.0 — uses Artisan::call() — auto-seeds DB — Ndauwo Safari Co.</p>';
 echo '</body></html>';
