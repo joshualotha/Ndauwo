@@ -180,7 +180,7 @@ try {
     echo "<h2>Step 6: Optimize & Cache</h2>";
     
     $commands = [
-        'optimize'     => ['--force' => true],
+        'optimize'     => [],  // optimize doesn't accept --force
         'config:cache' => [],
         'route:cache'  => [],
         'view:cache'   => [],
