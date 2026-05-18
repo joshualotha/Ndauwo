@@ -37,6 +37,7 @@ class SettingsSeeder extends Seeder
             ['key' => 'social_twitter', 'value' => '', 'group' => 'social'],
             ['key' => 'social_linkedin', 'value' => '', 'group' => 'social'],
             ['key' => 'social_youtube', 'value' => '', 'group' => 'social'],
+            ['key' => 'social_tripadvisor', 'value' => 'https://www.tripadvisor.com/', 'group' => 'social'],
 
             // Email (SMTP configuration)
             ['key' => 'mail_mailer', 'value' => 'smtp', 'group' => 'mail'],
@@ -55,6 +56,9 @@ class SettingsSeeder extends Seeder
             ['key' => 'seo_og_image', 'value' => null, 'group' => 'seo', 'type' => 'image'],
             ['key' => 'seo_google_analytics', 'value' => 'UA-XXXXX-Y', 'group' => 'seo'],
             ['key' => 'seo_facebook_pixel', 'value' => '', 'group' => 'seo'],
+            ['key' => 'ga4_id', 'value' => '', 'group' => 'seo'],
+            ['key' => 'gtm_id', 'value' => '', 'group' => 'seo'],
+            ['key' => 'seo_social_profiles', 'value' => '["https://www.tripadvisor.com/","https://www.facebook.com/","https://www.instagram.com/"]', 'group' => 'seo', 'type' => 'json'],
 
             // Payment & Booking
             ['key' => 'booking_currency', 'value' => 'USD', 'group' => 'booking'],

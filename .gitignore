@@ -24,3 +24,6 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 /database/*.sqlite*
+
+# OpenCode AI config
+/.opencode/

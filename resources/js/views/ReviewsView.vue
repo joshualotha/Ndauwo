@@ -256,21 +256,60 @@ onMounted(async () => {
     align-items: flex-start;
     gap: 15px;
   }
+  .content-section { padding: 100px 5% 120px; }
 }
+
 @media (max-width: 768px) {
-  .trust-logos {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
+  .content-section { padding: 80px 5% 100px; }
+  .content-heading { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+  .intro-text { font-size: 1.05rem; margin-bottom: 60px; }
+  .reviews-grid { gap: 24px; }
+  .review-card { padding: 40px 30px; }
+  .review-quote { font-size: 1.1rem; }
+  .trust-banner { padding: 80px 5%; }
+  .trust-wrap h2 { font-size: 2.2rem; }
+  .trust-logos { grid-template-columns: 1fr; gap: 30px; }
   .logo-item[style] {
     border-left: none !important;
     border-right: none !important;
     border-top: 1px solid rgba(201,168,76,0.2);
     border-bottom: 1px solid rgba(201,168,76,0.2);
-    padding: 30px 0;
+    padding: 24px 0;
   }
-  .review-card {
-    padding: 40px 30px;
-  }
+  .logo-item { font-size: 1.3rem; }
+}
+
+@media (max-width: 640px) {
+  .content-section { padding: 60px 4%; }
+  .content-heading { font-size: 1.5rem; }
+  .intro-text { font-size: 0.95rem; margin-bottom: 40px; line-height: 1.8; }
+  .review-card { padding: 32px 24px; }
+  .review-rating { margin-bottom: 20px; }
+  .star { font-size: 1rem; }
+  .review-quote { font-size: 1rem; line-height: 1.7; margin-bottom: 28px; }
+  .guest-name { font-size: 0.9rem; }
+  .guest-loc { font-size: 0.7rem; }
+  .trust-banner { padding: 60px 4%; }
+  .trust-wrap h2 { font-size: 1.8rem; margin-bottom: 40px; }
+  .logo-item { font-size: 1.1rem; }
+  .logo-item .small { font-size: 0.65rem; }
+}
+
+@media (max-width: 480px) {
+  .content-section { padding: 48px 4% 60px; }
+  .content-heading { font-size: 1.3rem; }
+  .intro-text { font-size: 0.9rem; margin-bottom: 32px; }
+  .review-card { padding: 28px 20px; }
+  .review-quote { font-size: 0.9rem; }
+  .trust-banner { padding: 48px 4%; }
+  .trust-wrap h2 { font-size: 1.5rem; }
+}
+
+@media (max-width: 375px) {
+  .content-section { padding: 40px 4% 48px; }
+  .content-heading { font-size: 1.1rem; }
+  .review-card { padding: 24px 16px; }
+  .trip-context { font-size: 0.65rem; }
+  .trust-wrap h2 { font-size: 1.3rem; }
 }
 </style>

@@ -439,12 +439,6 @@ onMounted(() => {
   border-color: white;
 }
 
-@media (max-width: 768px) {
-  .cta-actions {
-    flex-direction: column;
-  }
-}
-
 .gallery-loader, .no-results {
   height: 300px;
   display: flex;
@@ -473,11 +467,58 @@ onMounted(() => {
   .masonry-grid {
     column-count: 2;
   }
+  .gallery-section { padding: 80px 5%; }
+  .gallery-header { margin-bottom: 60px; }
+  .gallery-cta { padding: 100px 5%; }
 }
 
 @media (max-width: 768px) {
   .masonry-grid {
     column-count: 1;
+    column-gap: 16px;
   }
+  .gallery-section { padding: 60px 5%; }
+  .gallery-header { margin-bottom: 40px; }
+  .gal-heading { font-size: 1.8rem; }
+  .gal-subtitle { font-size: 1rem; }
+  .masonry-item { margin-bottom: 16px; }
+  .photo-meta { padding: 16px; }
+  .photo-location { font-size: 0.9rem; }
+  .photo-credit { font-size: 0.7rem; }
+  .gallery-cta { padding: 80px 5%; min-height: auto; }
+  .cta-heading { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+  .cta-text { font-size: 1rem; margin-bottom: 36px; }
+  .cta-actions { flex-direction: column; gap: 16px; max-width: 320px; margin: 0 auto; }
+  .btn-primary, .btn-ghost { display: block; text-align: center; padding: 16px 28px; font-size: 0.8rem; }
+  .category-pill { font-size: 0.7rem; padding: 8px 14px; }
+}
+
+@media (max-width: 640px) {
+  .gallery-section { padding: 40px 4%; }
+  .gal-heading { font-size: 1.5rem; }
+  .gal-subtitle { font-size: 0.9rem; }
+  .gallery-cta { padding: 60px 4%; }
+  .cta-heading { font-size: 1.5rem; }
+  .cta-text { font-size: 0.9rem; margin-bottom: 28px; }
+  .photo-meta { padding: 12px; }
+  .photo-location { font-size: 0.85rem; }
+}
+
+@media (max-width: 480px) {
+  .gallery-section { padding: 32px 4%; }
+  .gal-heading { font-size: 1.3rem; }
+  .gallery-header { margin-bottom: 28px; }
+  .category-filters { gap: 6px; flex-wrap: wrap; }
+  .category-pill { font-size: 0.65rem; padding: 6px 12px; letter-spacing: 0.1em; }
+  .gallery-cta { padding: 48px 4%; }
+  .cta-heading { font-size: 1.3rem; }
+}
+
+@media (max-width: 375px) {
+  .gallery-section { padding: 24px 4%; }
+  .gal-heading { font-size: 1.1rem; }
+  .gallery-cta { padding: 40px 4%; }
+  .cta-heading { font-size: 1.1rem; }
+  .category-pill { font-size: 0.6rem; padding: 4px 10px; }
 }
 </style>

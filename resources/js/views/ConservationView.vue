@@ -357,9 +357,43 @@ em {
 }
 
 @media (max-width: 768px) {
-  .section-title { font-size: 2.5rem; }
-  .stat-val { font-size: 4rem; }
-  .editorial-mission { padding: 120px 5%; }
-  .pledge-quote { font-size: 2rem; }
+  .section-title { font-size: clamp(2rem, 6vw, 2.5rem); }
+  .stat-val { font-size: clamp(3rem, 10vw, 4rem); }
+  .editorial-mission { padding: 80px 5%; }
+  .pledge-quote { font-size: clamp(1.5rem, 4vw, 2rem); }
+  .impact-grid { gap: 40px; }
+  .impact-stat { padding: 32px 24px; }
+  .stat-label { font-size: 0.8rem; }
+  .init-content h3 { font-size: 1.4rem; }
+  .init-content p { font-size: 0.95rem; }
+  .init-spread, .init-spread.reverse { gap: 40px; margin-bottom: 80px; }
+  .init-image { aspect-ratio: 4/3; }
+}
+
+@media (max-width: 640px) {
+  .editorial-mission { padding: 60px 5%; }
+  .hero-title { font-size: clamp(2rem, 10vw, 3.5rem); }
+  .mission-body { font-size: 0.95rem; line-height: 1.7; }
+  .impact-stat { padding: 24px 20px; }
+  .init-content h3 { font-size: 1.2rem; }
+  .init-content p { font-size: 0.9rem; }
+  .init-spread, .init-spread.reverse { gap: 28px; margin-bottom: 60px; }
+}
+
+@media (max-width: 480px) {
+  .editorial-mission { padding: 48px 4%; }
+  .hero-title { font-size: 2rem; }
+  .section-title { font-size: 1.5rem; }
+  .stat-val { font-size: 2.5rem; }
+  .pledge-quote { font-size: 1.3rem; }
+  .init-content { padding: 0 4% !important; }
+  .init-image { aspect-ratio: 1/1; }
+  .init-spread, .init-spread.reverse { gap: 20px; margin-bottom: 48px; }
+}
+
+@media (max-width: 375px) {
+  .editorial-mission { padding: 40px 4%; }
+  .hero-title { font-size: 1.6rem; }
+  .impact-stat { padding: 20px 16px; }
 }
 </style>

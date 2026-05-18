@@ -1948,228 +1948,470 @@ footer {
   transition-delay: 0.75s;
 }
 
-/* ─────────────────────────────────────────────
-   RESPONSIVE, Mobile-first progressive overrides
-   ──────────────────────────────────────────────*/
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile-First Progressive Enhancement
+   Every section, every component, every page.
+   Breakpoints: 1280 → 1024 → 900 → 768 → 640 → 480 → 375
+   ═══════════════════════════════════════════════════════════════ */
 
-/* ── 1024px ── */
+/* ── Tablet Landscape (≤1280px) ── */
+@media (max-width: 1280px) {
+  #about { padding: 100px 8%; gap: 60px; }
+  #destinations, #tours, #why-us, #booking, #contact { padding: 100px 6%; }
+  #testimonials, #experiences { padding: 100px 6%; }
+  .why-grid { gap: 40px; }
+}
+
+/* ── Tablet (≤1024px) ── */
 @media (max-width: 1024px) {
 
-  /* About */
-  #about {
-    grid-template-columns: 1fr;
-    gap: 60px;
-    padding: 100px 6%;
-  }
+  /* ── Global Padding ── */
+  #about { padding: 80px 6%; }
+  #destinations, #tours, #why-us, #booking, #contact { padding: 80px 5%; }
+  #experiences { padding: 80px 5%; }
+  #testimonials { padding: 80px 5%; }
+  #gallery { padding: 60px 0; }
 
-  .about-images {
-    height: 380px;
-  }
+  /* ── Hero ── */
+  .hero-stats { display: none; }
+  #hero { min-height: 85vh; }
+  .hero-content { max-width: 100%; padding: 0 6%; }
+  .hero-title { font-size: clamp(2.6rem, 9vw, 4.5rem); }
+  .hero-subtitle { max-width: 100%; font-size: clamp(0.95rem, 1.5vw, 1.15rem); }
 
-  /* Destinations home */
+  /* ── Premium Hero ── */
+  .premium-hero { min-height: 60vh; height: 80vh; }
+  .premium-hero .hero-title { font-size: clamp(2.4rem, 8vw, 5rem); }
+  .premium-hero .hero-subtitle { max-width: 100%; }
+
+  /* ── About ── */
+  #about { grid-template-columns: 1fr; gap: 50px; }
+  .about-images { height: 380px; max-width: 500px; margin: 0 auto; width: 100%; }
+  .about-badge { left: 10px; }
+
+  /* ── Destinations Home ── */
   .destinations-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
   }
+  .dest-card:first-child { grid-row: auto; grid-column: span 2; }
+  .dest-card { min-height: 240px; }
 
-  .dest-card:first-child {
-    grid-row: auto;
-    grid-column: span 2;
-  }
+  /* ── Experiences ── */
+  .experiences-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .exp-card { padding: 40px 30px; }
 
-  /* Experiences */
-  .experiences-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  /* ── Tours ── */
+  .tours-intro { grid-template-columns: 1fr; gap: 30px; }
+  .tours-intro .section-header { text-align: center; }
+  .tours-filter { justify-content: center; }
+  .tours-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 
-  /* Tours */
-  .tours-intro {
-    grid-template-columns: 1fr;
-  }
+  /* ── Tour cards ── */
+  .tour-body { padding: 24px; }
+  .tour-name { font-size: 1.2rem; }
 
-  .tours-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  /* ── Gallery ── */
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+  .gallery-item:nth-child(1) { grid-column: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 1; }
+  .gallery-item { height: 220px; }
 
-  /* Gallery */
-  .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
-  }
+  /* ── Testimonials ── */
+  .testimonial-card { min-width: calc(50% - 15px); padding: 36px; }
 
-  .gallery-item:nth-child(1) {
-    grid-column: span 2;
-  }
+  /* ── Why Us ── */
+  .why-grid { grid-template-columns: 1fr; }
+  .why-visual { height: 340px; max-width: 600px; margin: 0 auto; width: 100%; }
+  .why-content .section-header { text-align: center; }
 
-  .gallery-item:nth-child(4) {
-    grid-column: span 1;
-  }
+  /* ── Booking ── */
+  .booking-wrapper { grid-template-columns: 1fr; gap: 40px; }
+  .booking-form { padding: 40px 30px; }
+  .booking-info .section-header { text-align: center; }
+  .booking-info p { text-align: center; }
 
-  /* Booking */
-  .booking-wrapper {
-    grid-template-columns: 1fr;
-  }
+  /* ── Contact ── */
+  #contact { grid-template-columns: 1fr; gap: 50px; }
+  .contact-info .section-header { text-align: center; }
 
-  #contact {
-    grid-template-columns: 1fr;
-  }
+  /* ── Destination Detail Patterns ── */
+  .intro-inner { grid-template-columns: 1fr; gap: 40px; }
+  .intro-meta { border-left: none; border-top: 2px solid var(--ivory-dark); padding-left: 0; padding-top: 30px; flex-direction: row; flex-wrap: wrap; }
+  .meta-block { flex: 1; min-width: 160px; }
+  .hl-grid { grid-template-columns: 1fr; }
+  .hero-quick-facts { flex-direction: column; }
+  .qf-divider { width: auto; height: 1px; }
+  .quick-fact { padding: 20px 28px; }
 
-  /* Why-us */
-  .why-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .why-visual {
-    height: 340px;
-  }
-
-  /* Hero stats */
-  .hero-stats {
-    display: none;
-  }
+  /* ── Safari Detail Patterns ── */
+  .content-grid { grid-template-columns: 1fr; gap: 40px; }
+  .overview-inner { flex-wrap: wrap; gap: 16px; justify-content: center; text-align: center; }
+  .overview-stat { align-items: center; }
+  .overview-cta { width: 100%; margin-top: 6px; }
+  .highlights-list { grid-template-columns: 1fr; }
+  .gallery-strip { height: 300px; }
 }
 
-/* ── 768px ── */
+/* ── Small Tablet (≤900px) ── */
+@media (max-width: 900px) {
+  .hero-title { font-size: clamp(2.4rem, 10vw, 3.8rem); }
+  .premium-hero .hero-title { font-size: clamp(2.2rem, 9vw, 4rem); }
+  .destinations-grid { gap: 12px; }
+  .tours-grid { gap: 16px; }
+  .gallery-grid { gap: 12px; }
+  .seasons-grid { grid-template-columns: 1fr 1fr; }
+  .camps-inner h2 { font-size: clamp(2rem, 5vw, 3rem); }
+}
+
+/* ── Mobile Large (≤768px) ── */
 @media (max-width: 768px) {
 
-  /* Hero */
-  .hero-title {
-    font-size: clamp(2.8rem, 12vw, 4.5rem);
-    font-weight: 700;
-  }
+  /* ── Hero ── */
+  #hero { min-height: 100svh; }
+  .hero-title { font-size: clamp(2.2rem, 11vw, 3.5rem); line-height: 1.05; }
+  .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.3em; margin-bottom: 20px; }
+  .hero-subtitle { font-size: 0.95rem; line-height: 1.6; margin-bottom: 32px; }
+  .hero-actions { gap: 14px; }
 
-  #hero {
-    min-height: 100svh;
-  }
+  /* ── Premium Hero ── */
+  .premium-hero { height: 70vh; min-height: 420px; }
+  .premium-hero .hero-title { font-size: 2.2rem; }
+  .premium-hero .hero-label { font-size: 0.75rem; letter-spacing: 0.35em; margin-bottom: 16px; }
+  .premium-hero-content { padding: 0 6%; }
 
-  /* Sections */
-  #about,
-  #destinations,
-  #experiences,
-  #tours,
-  #gallery,
-  #testimonials,
-  #why-us,
-  #booking,
-  #contact {
-    padding: 80px 5%;
-  }
-
-  /* Destinations */
-  .destinations-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dest-card:first-child {
-    grid-column: auto;
-  }
-
-  /* Experiences & Tours */
-  .experiences-grid,
-  .tours-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Gallery */
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-  }
-
-  .gallery-item:nth-child(1),
-  .gallery-item:nth-child(4) {
-    grid-column: auto;
-  }
-
-  .shutter-logo {
-    font-size: 1.8rem !important;
-  }
-
-  /* Form */
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
-  /* Testimonials */
-  .testimonials-track {
-    flex-direction: column;
-  }
-
-  .testimonial-card {
-    min-width: 100%;
-  }
-}
-
-/* ── 480px ── */
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: clamp(2.4rem, 13vw, 4rem);
-    font-weight: 700;
-    line-height: 1.0;
-  }
-
-  .hero-subtitle {
-    font-size: 1.1rem;
-    font-weight: 400;
-    max-width: 100%;
-  }
-
-  .hero-eyebrow {
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .btn-primary,
-  .btn-ghost {
-    padding: 16px 42px;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    width: 100%; /* Full width buttons for mobile confidence */
-  }
-
-  .section-heading {
-    font-size: clamp(1.8rem, 7vw, 2.5rem);
-  }
-
-  #about {
+  /* ── Section Padding ── */
+  #about, #destinations, #experiences, #tours,
+  #gallery, #testimonials, #why-us, #booking, #contact {
     padding: 64px 5%;
   }
 
-  .about-heading {
-    font-size: clamp(1.8rem, 7vw, 2.5rem);
-  }
+  /* ── Section Headings ── */
+  .section-header { margin-bottom: 40px; }
+  .section-heading { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .section-label { font-size: 0.75rem; letter-spacing: 0.35em; }
 
-  .about-images {
-    height: 280px;
-  }
+  /* ── About ── */
+  #about { padding: 64px 5%; gap: 40px; }
+  .about-heading { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .about-body { font-size: 1rem; line-height: 1.7; }
+  .about-images { height: 260px; }
+  .about-img-main { width: 75%; height: 75%; box-shadow: 15px 15px 0 rgba(201, 168, 76, 0.2); }
+  .about-img-accent { width: 50%; height: 50%; }
+  .about-badge { width: 72px; height: 72px; left: 5px; top: 45%; }
+  .badge-num { font-size: 1.4rem; }
+  .badge-text { font-size: 0.75rem; }
+  #about::before, #about::after { display: none; }
 
-  .stat-num {
-    font-size: 1.6rem;
-  }
+  /* ── Destinations ── */
+  .destinations-grid { grid-template-columns: 1fr; }
+  .dest-card:first-child { grid-column: auto; }
+  .dest-card { min-height: 200px; }
+  .dest-info { padding: 20px; transform: translateY(0); }
+  .dest-name { font-size: 1.3rem; }
+  .dest-card:first-child .dest-name { font-size: 1.5rem; }
+  .dest-desc { max-height: 60px; font-size: 0.9rem; }
+  .dest-arrow { opacity: 1; font-size: 0.85rem; }
 
-  .tour-footer {
-    flex-direction: column;
-    gap: 12px;
-  }
+  /* ── Experiences ── */
+  .experiences-grid, .tours-grid { grid-template-columns: 1fr; gap: 16px; }
+  .exp-card { padding: 30px 24px; }
+  .exp-number { font-size: 3rem; top: 12px; right: 20px; }
+  .exp-title { font-size: 1.2rem; }
+  .exp-desc { font-size: 0.95rem; }
+
+  /* ── Tours ── */
+  .tour-card { max-width: 480px; margin: 0 auto; }
+  .tour-img { height: 200px; }
+  .tour-body { padding: 20px; }
+  .tour-name { font-size: 1.2rem; }
+  .tour-desc { font-size: 0.95rem; }
+  .tour-duration { font-size: 0.85rem; }
+  .tour-price { font-size: 1.5rem; }
+  .tour-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+
+  /* ── Gallery Marquee ── */
+  .gallery-item { height: 200px; }
+  .gallery-overlay span { font-size: 1.1rem; }
+
+  /* ── Testimonials ── */
+  #testimonials { padding: 64px 5%; }
+  .testimonials-track { flex-direction: column; gap: 20px; }
+  .testimonial-card { min-width: 100%; padding: 28px 24px; }
+  .testimonial-text { font-size: 1.1rem; }
+  .carousel-controls { display: none; }
+  #testimonials::before { font-size: 15rem; top: -30px; left: -10px; }
+
+  /* ── Why Us ── */
+  .why-grid { gap: 30px; }
+  .why-visual { height: 260px; }
+  .why-item { padding: 18px; gap: 16px; }
+  .why-icon { width: 40px; height: 40px; min-width: 40px; }
+  .why-text-title { font-size: 1rem; }
+  .why-text-desc { font-size: 0.95rem; }
+  .why-counter-bar { padding: 20px; gap: 12px; }
+  .counter-num { font-size: 2rem; }
+  .counter-label { font-size: 0.75rem; letter-spacing: 0.2em; }
+
+  /* ── Booking ── */
+  .booking-wrapper { gap: 32px; }
+  .booking-form { padding: 30px 24px; }
+  .form-title { font-size: 1.4rem; margin-bottom: 24px; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { font-size: 0.8rem; letter-spacing: 0.2em; }
+  .form-group input, .form-group select, .form-group textarea { padding: 12px 14px; font-size: 16px; }
+  .booking-submit { padding: 16px; font-size: 0.9rem; }
+
+  /* ── Contact ── */
+  #contact { padding: 64px 5%; gap: 40px; }
+  .contact-details { gap: 16px; }
+  .contact-item { padding-bottom: 16px; gap: 14px; }
+  .contact-item-icon { width: 36px; height: 36px; min-width: 36px; }
+  .contact-item-label { font-size: 0.8rem; letter-spacing: 0.2em; }
+  .contact-item-value { font-size: 0.95rem; }
+  .map-placeholder { min-height: 250px; }
+
+  /* ── Shutter ── */
+  .shutter-logo { font-size: 1.8rem !important; }
+
+  /* ── Destination Detail ── */
+  .intro-section { padding: 80px 5%; }
+  .intro-inner { gap: 28px; }
+  .intro-lead { font-size: clamp(1.2rem, 3vw, 1.5rem); }
+  .intro-meta { padding-top: 24px; }
+  .meta-block { padding: 16px 0; }
+  .meta-val { font-size: 1rem; }
+  .geo-text-block { padding: 80px 5%; }
+  .geo-h { font-size: clamp(1.8rem, 5vw, 2.8rem); }
+  .geo-content p { font-size: 1rem; }
+  .highlights-section { padding: 80px 5%; }
+  .hl-head { margin-bottom: 40px; }
+  .hl-head h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+  .hl-item { padding: 36px 28px; grid-template-columns: 44px 1fr; gap: 16px; }
+  .hl-num { font-size: 2rem; }
+  .hl-body h3 { font-size: 1.3rem; }
+  .seasons-section { padding: 80px 5%; }
+  .seas-h { font-size: clamp(1.8rem, 5vw, 2.8rem); margin-bottom: 40px; }
+  .seasons-grid { grid-template-columns: 1fr; }
+  .season-block { padding: 32px 28px; }
+  .season-title { font-size: 1.3rem; }
+  .camps-section { padding: 80px 5%; }
+  .camps-inner h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); margin-bottom: 40px; }
+  .camp-item { grid-template-columns: 44px 1fr; gap: 16px; padding: 24px 0; }
+  .camp-num { font-size: 1.5rem; }
+  .camp-body h3 { font-size: 1.2rem; }
+  .gallery-section { padding: 80px 5%; }
+  .gallery-header { margin-bottom: 40px; }
+  .gallery-header h2 { font-size: clamp(1.8rem, 6vw, 3rem); }
+  .luxury-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; gap: 12px; }
+  .item-0, .item-1, .item-2, .item-3, .item-4, .item-5, .item-6 { grid-column: span 1; grid-row: span 1; }
+  .item-0, .item-5 { grid-column: span 2; }
+  .cta-section { padding: 60px 5%; min-height: auto; }
+  .cta-copy h2 { font-size: clamp(2rem, 7vw, 3.5rem); }
+  .cta-actions { flex-direction: column; gap: 12px; }
+  .cta-btn-primary, .cta-btn-ghost { display: block; text-align: center; }
+
+  /* ── Safari Detail ── */
+  .content-section { padding: 60px 5% 80px; }
+  .content-grid { gap: 32px; }
+  .content-heading { font-size: 1.8rem; }
+  .intro-text { font-size: 1.05rem; }
+  .subsection-title { margin-bottom: 24px; }
+  .day-card { grid-template-columns: 1fr; gap: 8px; padding-left: 16px; border-left: 2px solid var(--gold); }
+  .day-number { font-size: 1.1rem; }
+  .day-title { font-size: 1.1rem; }
+  .day-content p { font-size: 1rem; }
+  .overview-bar { padding: 0 5%; }
+  .overview-inner { padding: 20px 0; gap: 12px; }
+  .stat-val { font-size: 1.2rem; }
+  .sidebar-widget { padding: 28px 24px; }
+  .highlights-box { padding: 20px; margin-bottom: 40px; }
+  .gallery-strip { height: 200px; grid-template-columns: 1fr; }
+  .hero-meta { flex-direction: column; gap: 8px; align-items: center; font-size: 0.85rem; }
 }
 
-/* ── 375px (iPhone SE) ── */
-@media (max-width: 375px) {
-  .hero-title {
-    font-size: 2rem;
-  }
+/* ── Mobile Small (≤640px) ── */
+@media (max-width: 640px) {
+  #about, #destinations, #experiences, #tours,
+  #why-us, #booking, #contact { padding: 52px 5%; }
+  #testimonials { padding: 52px 5%; }
+  #gallery { padding: 40px 0; }
 
-  #about,
-  #destinations,
-  #experiences,
-  #tours {
-    padding: 52px 4%;
-  }
+  .hero-title { font-size: clamp(2rem, 10vw, 2.8rem); }
+  .hero-subtitle { font-size: 0.9rem; margin-bottom: 24px; }
+  .hero-eyebrow { font-size: 0.65rem; letter-spacing: 0.25em; margin-bottom: 16px; }
+
+  .premium-hero { height: 60vh; min-height: 380px; }
+  .premium-hero .hero-title { font-size: 2rem; }
+
+  .section-heading { font-size: clamp(1.4rem, 6vw, 1.8rem); }
+  .section-label { font-size: 0.7rem; letter-spacing: 0.3em; }
+
+  .btn-primary, .btn-ghost { padding: 14px 36px; font-size: 0.8rem; letter-spacing: 0.18em; width: 100%; }
+
+  .dest-card { min-height: 180px; }
+  .dest-name { font-size: 1.2rem; }
+  .dest-desc { font-size: 0.85rem; max-height: 44px; }
+
+  .exp-card { padding: 24px 20px; }
+  .exp-number { font-size: 2.5rem; }
+  .exp-icon { font-size: 2rem; margin-bottom: 16px; }
+  .exp-title { font-size: 1.1rem; }
+
+  .tour-img { height: 180px; }
+  .tour-body { padding: 16px; }
+  .tour-name { font-size: 1.1rem; }
+
+  .gallery-item { height: 160px; }
+
+  .testimonial-card { padding: 24px 20px; }
+
+  .booking-form { padding: 24px 20px; }
+
+  .about-images { height: 220px; }
+  .about-badge { width: 60px; height: 60px; }
+  .badge-num { font-size: 1.2rem; }
+  .badge-text { font-size: 0.65rem; }
+
+  .why-visual { height: 220px; }
+  .why-item { padding: 14px; gap: 12px; }
+  .why-icon { width: 36px; height: 36px; min-width: 36px; }
+
+  /* Destination detail compact */
+  .intro-section { padding: 60px 5%; }
+  .geo-text-block { padding: 60px 5%; }
+  .highlights-section { padding: 60px 5%; }
+  .hl-item { padding: 28px 20px; }
+  .seasons-section { padding: 60px 5%; }
+  .camps-section { padding: 60px 5%; }
+  .gallery-section { padding: 60px 5%; }
+  .luxury-gallery { grid-auto-rows: 140px; gap: 8px; }
+
+  /* Safari detail */
+  .content-section { padding: 40px 5% 60px; }
+  .overview-inner { padding: 16px 0; }
+  .hero-meta { font-size: 0.8rem; }
+  .day-card { gap: 6px; padding-left: 12px; }
+
+  .cta-section { padding: 40px 5%; }
+  .cta-copy h2 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+
+  .whatsapp-float { bottom: 20px; right: 20px; width: 48px; height: 48px; font-size: 1.3rem; }
+}
+
+/* ── Mobile XSmall (≤480px) ── */
+@media (max-width: 480px) {
+  .hero-title { font-size: clamp(1.8rem, 11vw, 2.4rem); line-height: 1.0; }
+  .hero-subtitle { font-size: 0.85rem; }
+  .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.2em; }
+  .hero-actions { gap: 10px; }
+
+  .btn-primary, .btn-ghost { padding: 12px 32px; font-size: 0.75rem; }
+
+  .section-heading { font-size: clamp(1.2rem, 6vw, 1.6rem); }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.25em; }
+
+  #about, #destinations, #experiences, #tours,
+  #why-us, #booking, #contact { padding: 40px 5%; }
+  #testimonials { padding: 40px 5%; }
+
+  .about-images { height: 200px; }
+  .about-heading { font-size: clamp(1.4rem, 6vw, 1.8rem); }
+  .about-body { font-size: 0.9rem; line-height: 1.6; }
+
+  .dest-card { min-height: 160px; }
+  .dest-name { font-size: 1.1rem; }
+  .dest-info { padding: 16px; }
+
+  .exp-card { padding: 20px 16px; }
+  .exp-number { font-size: 2rem; top: 8px; right: 16px; }
+  .exp-title { font-size: 1rem; }
+  .exp-desc { font-size: 0.9rem; }
+
+  .tours-grid { gap: 12px; }
+  .tour-img { height: 160px; }
+  .tour-body { padding: 14px; }
+  .tour-duration { font-size: 0.8rem; }
+  .tour-name { font-size: 1rem; }
+  .tour-desc { font-size: 0.9rem; }
+
+  .testimonial-card { padding: 20px 16px; }
+  .testimonial-text { font-size: 1rem; }
+  .author-avatar { width: 44px; height: 44px; }
+
+  .why-visual { height: 200px; }
+  .why-counter-bar { padding: 14px; gap: 8px; }
+  .counter-num { font-size: 1.6rem; }
+  .counter-label { font-size: 0.65rem; }
+
+  .booking-form { padding: 20px 16px; }
+  .form-title { font-size: 1.2rem; }
+
+  .premium-hero { height: 55vh; min-height: 340px; }
+  .premium-hero .hero-title { font-size: 1.8rem; }
+  .premium-hero .hero-label { font-size: 0.65rem; }
+
+  /* Destination detail */
+  .quick-fact { padding: 14px 20px; }
+  .qf-value { font-size: 1.1rem; }
+  .intro-lead { font-size: 1.1rem; }
+  .hl-head h2 { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+  .hl-item { padding: 24px 16px; }
+  .hl-num { font-size: 1.5rem; }
+  .season-block { padding: 24px 20px; }
+
+  /* Safari detail */
+  .content-heading { font-size: 1.4rem; }
+  .intro-text { font-size: 0.95rem; }
+
+  .luxury-gallery { grid-auto-rows: 120px; }
+  .gallery-header h2 { font-size: clamp(1.4rem, 6vw, 2rem); }
+
+  .cta-actions { gap: 8px; }
+  .cta-btn-primary, .cta-btn-ghost { padding: 14px 24px; font-size: 0.75rem; }
+
+  .whatsapp-float { bottom: 16px; right: 16px; width: 44px; height: 44px; }
+}
+
+/* ── iPhone SE (≤375px) ── */
+@media (max-width: 375px) {
+  .hero-title { font-size: 1.6rem; }
+  .hero-subtitle { font-size: 0.8rem; }
+  .hero-eyebrow { font-size: 0.55rem; }
+
+  .premium-hero .hero-title { font-size: 1.6rem; }
+  .premium-hero { min-height: 300px; height: 50vh; }
+
+  .section-heading { font-size: clamp(1.1rem, 5vw, 1.4rem); }
+  .section-label { font-size: 0.6rem; }
+
+  #about, #destinations, #experiences, #tours,
+  #testimonials, #why-us, #booking, #contact { padding: 32px 4%; }
+
+  .about-images { height: 180px; }
+  .about-badge { width: 52px; height: 52px; }
+  .badge-num { font-size: 1rem; }
+  .badge-text { font-size: 0.6rem; }
+
+  .dest-card { min-height: 140px; }
+  .dest-name { font-size: 1rem; }
+
+  .exp-card { padding: 16px 14px; }
+  .exp-title { font-size: 0.95rem; }
+
+  .tour-img { height: 140px; }
+  .tour-price { font-size: 1.3rem; }
+
+  .gallery-item { height: 140px; }
+
+  .why-visual { height: 180px; }
+
+  .booking-form { padding: 16px 14px; }
+
+  .luxury-gallery { grid-auto-rows: 100px; gap: 6px; }
+
+  .content-heading { font-size: 1.2rem; }
 }
 
 /* ── FORM: prevent iOS auto-zoom on input focus ── */

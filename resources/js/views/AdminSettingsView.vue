@@ -176,8 +176,19 @@
             <h3><IBarChart class="card-icon" /> Analytics & Tracking</h3>
             <div class="form-grid">
               <div class="form-group full">
-                <label>Google Analytics ID</label>
-                <input type="text" v-model="settings.seo_google_analytics" placeholder="G-XXXXXXXXXX">
+                <label>Google Analytics 4 ID</label>
+                <input type="text" v-model="settings.ga4_id" placeholder="G-XXXXXXXXXX">
+                <span class="field-hint">Recommended. Enter your GA4 Measurement ID (starts with G-).</span>
+              </div>
+              <div class="form-group full">
+                <label>Google Tag Manager ID</label>
+                <input type="text" v-model="settings.gtm_id" placeholder="GTM-XXXXXXX">
+                <span class="field-hint">If set, overrides direct GA4 tag. Enter your GTM container ID (starts with GTM-).</span>
+              </div>
+              <div class="form-group full">
+                <label>Legacy Google Analytics ID</label>
+                <input type="text" v-model="settings.seo_google_analytics" placeholder="UA-XXXXX-Y">
+                <span class="field-hint">Fallback if GA4 ID is not set. Used for older UA- tracking codes.</span>
               </div>
               <div class="form-group full">
                 <label>Facebook Pixel ID</label>
@@ -189,6 +200,28 @@
                   <img v-if="settings.seo_og_image" :src="getImageUrl(settings.seo_og_image)" />
                   <div v-else class="placeholder"><IUpload /></div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <h3><IUsers class="card-icon" /> Social Profiles (Schema)</h3>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label>TripAdvisor URL</label>
+                <input type="text" v-model="settings.social_tripadvisor" placeholder="https://www.tripadvisor.com/...">
+              </div>
+              <div class="form-group full">
+                <label>Facebook Page URL</label>
+                <input type="text" v-model="settings.social_facebook" placeholder="https://facebook.com/...">
+              </div>
+              <div class="form-group full">
+                <label>Instagram URL</label>
+                <input type="text" v-model="settings.social_instagram" placeholder="https://instagram.com/...">
+              </div>
+              <div class="form-group full">
+                <label>YouTube URL</label>
+                <input type="text" v-model="settings.social_youtube" placeholder="https://youtube.com/...">
               </div>
             </div>
           </div>
@@ -308,7 +341,8 @@ import {
   Calendar as ICalendar,
   CreditCard as ICreditCard,
   Mail as IMail,
-  Upload as IUpload
+  Upload as IUpload,
+  Users as IUsers
 } from 'lucide-vue-next';
 
 import { API_BASE_URL } from '../composables/useSettings';
@@ -342,17 +376,21 @@ const settings = ref({
   office_address: '',
   gps_hq: '',
   gps_serengeti: '',
-  social_instagram: '',
-  social_facebook: '',
+  social_instagram: 'https://instagram.com/ndauwosafari',
+  social_facebook: 'https://facebook.com/ndauwosafari',
   social_twitter: '',
   social_linkedin: '',
   social_youtube: '',
+  social_tripadvisor: '',
   seo_meta_title: '',
   seo_meta_description: '',
   seo_meta_keywords: '',
   seo_og_image: '',
+  ga4_id: '',
+  gtm_id: '',
   seo_google_analytics: '',
   seo_facebook_pixel: '',
+  social_tripadvisor: '',
   booking_currency: 'USD',
   booking_deposit_percentage: 30,
   booking_terms_conditions: '',

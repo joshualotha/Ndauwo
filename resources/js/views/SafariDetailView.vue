@@ -224,12 +224,44 @@ watch(() => route.params.slug, fetchTour)
 
 @media (max-width: 1024px) {
   .content-grid { grid-template-columns: 1fr; gap: 60px; }
-  .overview-inner { flex-wrap: wrap; gap: 20px; justify-content: flex-start; }
+  .overview-inner { flex-wrap: wrap; gap: 16px; justify-content: center; }
   .overview-cta { width: 100%; margin-top: 10px; }
+  .overview-stat { align-items: center; }
+}
+@media (max-width: 768px) {
+  .content-section { padding: 60px 5% 80px; }
+  .content-grid { gap: 40px; }
+  .content-heading { font-size: 1.8rem; }
+  .intro-text { font-size: 1.05rem; margin-bottom: 40px; }
+  .day-card { grid-template-columns: 1fr; gap: 8px; border-left: 2px solid var(--gold); padding-left: 16px; margin-bottom: 28px; }
+  .day-number { font-size: 1.1rem; }
+  .day-title { font-size: 1.1rem; }
+  .hero-meta { flex-direction: column; gap: 8px; align-items: center; font-size: 0.85rem; }
+  .overview-bar { padding: 0 5%; }
+  .overview-inner { padding: 20px 0; }
+  .sidebar-widget { padding: 28px 24px; }
+  .gallery-strip { grid-template-columns: 1fr; height: 200px; }
 }
 @media (max-width: 640px) {
-  .day-card { grid-template-columns: 1fr; gap: 10px; border-left: 2px solid var(--gold); padding-left: 20px; }
-  .hero-meta { flex-direction: column; gap: 10px; align-items: center; }
-  .gallery-strip { grid-template-columns: 1fr; height: 600px; }
+  .content-section { padding: 40px 5% 60px; }
+  .content-heading { font-size: 1.5rem; }
+  .intro-text { font-size: 0.95rem; }
+  .day-card { gap: 6px; padding-left: 12px; }
+  .sidebar-widget { padding: 20px 16px; }
+  .gallery-strip { height: 160px; }
+}
+@media (max-width: 480px) {
+  .content-heading { font-size: 1.3rem; }
+  .intro-text { font-size: 0.9rem; margin-bottom: 28px; }
+  .day-card { margin-bottom: 20px; }
+  .day-content p { font-size: 0.95rem; }
+  .sidebar-widget h3 { font-size: 1.3rem; }
+  .hero-meta { font-size: 0.75rem; gap: 6px; }
+  .stat-val { font-size: 1rem; }
+  .overview-inner { padding: 14px 0; }
+}
+@media (max-width: 375px) {
+  .content-heading { font-size: 1.2rem; }
+  .gallery-strip { height: 140px; }
 }
 </style>

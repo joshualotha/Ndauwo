@@ -475,10 +475,10 @@ onMounted(() => {
   .inquiry-section {
     grid-template-columns: 1fr;
     padding: 100px 5%;
+    gap: 60px;
   }
   .inquiry-visual {
     height: 400px;
-    margin-bottom: 40px;
   }
   .visual-img {
     box-shadow: none;
@@ -494,13 +494,88 @@ onMounted(() => {
     transform: none;
     max-width: none;
   }
+  .contact-methods {
+    padding: 0 5%;
+    margin-top: -60px;
+  }
 }
+
+@media (max-width: 768px) {
+  .contact-methods {
+    padding: 0 4%;
+    margin-top: -40px;
+  }
+  .method-card {
+    padding: 40px 28px;
+  }
+  .method-title { font-size: 1.3rem; }
+  .method-icon { width: 48px; height: 48px; margin-bottom: 24px; }
+  .inquiry-section {
+    padding: 80px 5%;
+    gap: 40px;
+  }
+  .inquiry-visual {
+    height: 300px;
+  }
+  .visual-badge {
+    width: 120px;
+    height: 120px;
+    right: -20px;
+    bottom: 30px;
+  }
+  .visual-badge span { font-size: 0.85rem; }
+  .visual-badge em { font-size: 1.4rem; }
+  .premium-form { gap: 24px; }
+  .submit-btn { align-self: stretch; justify-content: center; }
+  .map-section { height: 50vh; min-height: 400px; }
+  .map-overlay { padding: 36px; }
+  .map-overlay h3 { font-size: 1.6rem; }
+}
+
 @media (max-width: 640px) {
   .form-row {
     grid-template-columns: 1fr;
   }
-  .hero-title {
-    font-size: 3rem;
+  .inquiry-section {
+    padding: 60px 4%;
+    gap: 32px;
   }
+  .inquiry-visual { height: 250px; }
+  .section-heading { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+  .input-container input, 
+  .input-container select, 
+  .input-container textarea { font-size: 16px !important; } /* prevent iOS zoom */
+  .input-container label { font-size: 0.8rem; }
+  .submit-btn { padding: 16px 28px; font-size: 0.85rem; }
+  .map-section { height: 45vh; min-height: 360px; }
+  .map-overlay { padding: 28px; }
+  .map-overlay h3 { font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+  .contact-methods { padding: 0 4%; margin-top: -30px; }
+  .method-card { padding: 32px 20px; }
+  .method-title { font-size: 1.1rem; }
+  .method-desc { font-size: 0.9rem; }
+  .method-link, .method-text { font-size: 0.9rem; }
+  .inquiry-section { padding: 48px 4%; gap: 28px; }
+  .inquiry-visual { height: 200px; }
+  .visual-badge { width: 100px; height: 100px; }
+  .visual-badge span { font-size: 0.75rem; }
+  .visual-badge em { font-size: 1.2rem; }
+  .map-section { height: 40vh; min-height: 300px; }
+  .map-overlay { padding: 24px 20px; }
+  .map-overlay h3 { font-size: 1.2rem; }
+  .map-overlay p { font-size: 0.85rem; }
+}
+
+@media (max-width: 375px) {
+  .contact-methods { padding: 0 3%; margin-top: -20px; }
+  .method-card { padding: 28px 16px; }
+  .inquiry-visual { height: 180px; }
+  .visual-badge { width: 80px; height: 80px; right: -10px; bottom: 20px; }
+  .visual-badge em { font-size: 1rem; }
+  .map-section { height: 35vh; min-height: 280px; }
+  .map-overlay { padding: 20px 16px; }
 }
 </style>

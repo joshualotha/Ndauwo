@@ -258,18 +258,29 @@ onUnmounted(() => {
   .review-badge { padding: 4px 8px; gap: 5px; }
   .review-badge__score { font-size: 0.78rem; }
 }
-@media (max-width: 640px) {
-  .topbar { height: 38px; }
-  .topbar-inner { padding: 0 14px; }
-  .topbar-reviews { gap: 0; }
+@media (max-width: 768px) {
+  .topbar { height: 40px; }
+  .topbar-inner { padding: 0 16px; }
+  .topbar-reviews { gap: 4px; }
   .review-badge { padding: 4px 6px; gap: 4px; }
   .review-badge__stars { display: none; }
   .review-badge__score { font-size: 0.75rem; }
   .review-divider { margin: 0 2px; height: 14px; }
-  .top-cta { padding: 3px 10px; font-size: 0.62rem; letter-spacing: 0.08em; }
+  .top-cta { padding: 4px 12px; font-size: 0.64rem; letter-spacing: 0.1em; }
 }
-@media (max-width: 380px) {
+@media (max-width: 480px) {
+  .topbar { height: 36px; }
+  .topbar-inner { padding: 0 12px; }
+  .review-badge { padding: 3px 4px; gap: 3px; }
+  .review-badge__score { font-size: 0.7rem; }
   .review-badge__icon { display: none; }
-  .review-badge { padding: 4px 4px; }
+  .review-divider { margin: 0 1px; height: 12px; }
+  .top-cta { padding: 3px 8px; font-size: 0.6rem; letter-spacing: 0.06em; }
+}
+@media (max-width: 375px) {
+  .topbar { height: 34px; }
+  .topbar-inner { padding: 0 8px; }
+  .review-badge { padding: 2px 3px; gap: 2px; }
+  .top-cta { padding: 2px 6px; font-size: 0.55rem; letter-spacing: 0.04em; }
 }
 </style>

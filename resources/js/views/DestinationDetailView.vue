@@ -363,14 +363,71 @@ em { font-style:italic; color: var(--gold); }
 .item-6 { grid-column: span 1; grid-row: span 2; }
 
 @media(max-width:1024px) {
-  .luxury-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 250px; }
+  .luxury-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 220px; }
   .item-0, .item-1, .item-2, .item-3, .item-4, .item-5, .item-6 { grid-column: span 1; grid-row: span 1; }
   .item-0, .item-5 { grid-column: span 2; }
 }
 
-@media(max-width:600px) {
-  .luxury-gallery { grid-template-columns: 1fr; gap: 16px; }
-  .item-0, .item-5 { grid-column: span 1; }
+@media(max-width:768px) {
+  .luxury-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; gap: 12px; }
+  .item-0, .item-5 { grid-column: span 2; }
+  .intro-section { padding: 80px 5%; }
+  .geo-text-block { padding: 80px 5%; }
+  .highlights-section { padding: 80px 5%; }
+  .seasons-section { padding: 80px 5%; }
+  .camps-section { padding: 80px 5%; }
+  .gallery-section { padding: 80px 5%; }
+  .cta-section { padding: 60px 5%; min-height: auto; }
+  .hl-item { padding: 36px 28px; }
+  .hl-head h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+  .intro-lead { font-size: clamp(1.2rem, 3vw, 1.5rem); }
+  .hero-quick-facts { flex-direction: column; }
+  .qf-divider { width: auto; height: 1px; }
+  .quick-fact { padding: 16px 24px; }
+  .qf-value { font-size: 1.1rem; }
+  .cta-copy h2 { font-size: clamp(2rem, 7vw, 3.5rem); }
+  .cta-actions { flex-direction: column; gap: 12px; }
+
+  /* CTA buttons full-width on mobile */
+  .cta-btn-primary, .cta-btn-ghost { display: block; text-align: center; padding: 16px 36px; }
+}
+
+@media(max-width:640px) {
+  .luxury-gallery { grid-auto-rows: 140px; gap: 8px; }
+  .intro-section { padding: 60px 5%; }
+  .geo-text-block { padding: 60px 5%; }
+  .highlights-section { padding: 60px 5%; }
+  .seasons-section { padding: 60px 5%; }
+  .camps-section { padding: 60px 5%; }
+  .gallery-section { padding: 60px 5%; }
+  .hl-item { padding: 28px 20px; }
+  .season-block { padding: 24px 20px; }
+  .camp-item { padding: 20px 0; }
+}
+
+@media(max-width:480px) {
+  .luxury-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 120px; gap: 6px; }
+  .intro-section { padding: 40px 4%; }
+  .geo-text-block { padding: 40px 4%; }
+  .highlights-section { padding: 40px 4%; }
+  .seasons-section { padding: 40px 4%; }
+  .camps-section { padding: 40px 4%; }
+  .gallery-section { padding: 40px 4%; }
+  .hl-item { padding: 24px 16px; grid-template-columns: 36px 1fr; gap: 12px; }
+  .hl-num { font-size: 1.5rem; }
+  .hl-body h3 { font-size: 1.1rem; }
+  .quick-fact { padding: 12px 20px; }
+  .intro-lead { font-size: 1rem; }
+  .cta-copy h2 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+  .cta-btn-primary, .cta-btn-ghost { padding: 14px 24px; font-size: 0.75rem; }
+}
+
+@media(max-width:375px) {
+  .luxury-gallery { grid-auto-rows: 100px; gap: 4px; }
+  .quick-fact { padding: 10px 16px; }
+  .qf-value { font-size: 1rem; }
+  .hl-item { padding: 20px 14px; }
+  .gallery-header h2 { font-size: clamp(1.4rem, 6vw, 2rem); }
 }
 
 /* ━━━ CTA ━━━ */

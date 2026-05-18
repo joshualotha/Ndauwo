@@ -345,13 +345,62 @@ const filteredDestinations = computed(() => {
   .dest-card:first-child .dest-name {
     font-size: 1.6rem;
   }
+  .hero-title { font-size: clamp(3rem, 8vw, 5rem); }
+}
+@media (max-width: 768px) {
+  .hero { min-height: 60vh; }
+  .hero-title { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .hero-lead { font-size: 1rem; }
+  .dest-intro { margin-bottom: 60px; }
+  .intro-title { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+  .intro-text { font-size: 1rem; line-height: 1.7; }
+  .featured-wrapper { gap: 40px; }
+  .featured-content { padding: 0; }
+  .featured-img { height: 320px; }
+  .featured-name { font-size: 1.6rem; }
+  .featured-desc { font-size: 0.95rem; }
+  .spotlight-badge { right: 16px; bottom: 16px; padding: 12px 20px; }
+  .destinations-section { padding: 60px 5%; }
+  .destinations-grid { gap: 20px; }
+  .dest-card:first-child .dest-name { font-size: 1.4rem; }
+  .dest-name { font-size: 1.2rem; }
+  .dest-desc { font-size: 0.9rem; }
+  .featured-highlights { gap: 16px; }
 }
 @media (max-width: 640px) {
   .destinations-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .hero-title {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
+  .hero { min-height: 55vh; min-height: 420px; }
+  .featured-img { height: 260px; }
+  .featured-name { font-size: 1.3rem; }
+  .destinations-section { padding: 48px 5%; }
+  .dest-card { min-height: 200px; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: 2rem; }
+  .hero { min-height: 50vh; min-height: 360px; }
+  .hero-lead { font-size: 0.9rem; }
+  .intro-title { font-size: 1.5rem; }
+  .intro-text { font-size: 0.9rem; }
+  .featured-img { height: 220px; }
+  .featured-name { font-size: 1.2rem; }
+  .featured-desc { font-size: 0.9rem; }
+  .featured-highlights span { font-size: 0.85rem; }
+  .spotlight-badge { padding: 10px 16px; }
+  .destinations-grid { gap: 12px; }
+  .dest-card { min-height: 180px; }
+}
+@media (max-width: 375px) {
+  .hero-title { font-size: 1.6rem; }
+  .hero { min-height: 320px; }
+  .destinations-section { padding: 32px 4%; }
+  .featured-wrapper { gap: 28px; }
+  .featured-img { height: 180px; }
+  .dest-name { font-size: 1rem; }
 }
 </style>

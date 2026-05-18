@@ -475,10 +475,51 @@ nav.menu-open .hamburger span { background: var(--ebony); }
   .hamburger { display: flex; }
   .mobile-drawer { display: block; }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .mobile-drawer { padding: 100px 6% 40px; }
+  .mobile-nav-list a { font-size: clamp(1.5rem, 5vw, 2rem); padding: 18px 0; }
+  .mobile-dropdown-btn { font-size: clamp(1.5rem, 5vw, 2rem); padding: 18px 0; }
+  .mobile-sub-menu li a { font-size: 0.95rem; padding: 10px 0; }
+  .mobile-cta { font-size: 0.9rem !important; padding: 14px 0 !important; }
+  .hamburger { min-width: 44px; min-height: 44px; padding: 8px 6px; }
+  .hamburger span { width: 22px; }
+  .hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+}
+@media (max-width: 640px) {
   .nav-container { padding: 0.8rem 16px; }
   nav.scrolled .nav-container { padding: 0.5rem 16px; }
-  .brand-logo { height: 38px; }
-  nav.scrolled .brand-logo { height: 34px; }
+  .brand-logo { height: 36px; }
+  nav.scrolled .brand-logo { height: 32px; }
+  .mobile-drawer { padding: 90px 5% 30px; }
+  .mobile-nav-list a { font-size: clamp(1.3rem, 5vw, 1.6rem); padding: 16px 0; }
+  .mobile-dropdown-btn { font-size: clamp(1.3rem, 5vw, 1.6rem); padding: 16px 0; }
+}
+@media (max-width: 480px) {
+  .nav-container { padding: 0.7rem 14px; }
+  nav.scrolled .nav-container { padding: 0.4rem 14px; }
+  .brand-logo { height: 30px; }
+  nav.scrolled .brand-logo { height: 26px; }
+  .hamburger { min-width: 44px; min-height: 44px; padding: 10px 6px; gap: 4px; }
+  .hamburger span { width: 20px; height: 1.5px; }
+  .hamburger.open span:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
+  .mobile-drawer { padding: 80px 4% 24px; }
+  .mobile-nav-list a { font-size: 1.3rem; padding: 14px 0; }
+  .mobile-dropdown-btn { font-size: 1.3rem; padding: 14px 0; }
+  .mobile-sub-menu li a { font-size: 0.85rem; padding: 8px 0; }
+  .mobile-cta { font-size: 0.8rem !important; padding: 12px 0 !important; }
+}
+@media (max-width: 375px) {
+  .nav-container { padding: 0.6rem 12px; }
+  .brand-logo { height: 26px; }
+  nav.scrolled .brand-logo { height: 24px; }
+  .mobile-drawer { padding: 70px 4% 20px; }
+  .mobile-nav-list a { font-size: 1.1rem; padding: 12px 0; }
+  .mobile-dropdown-btn { font-size: 1.1rem; padding: 12px 0; }
+  .hamburger { min-width: 44px; min-height: 44px; padding: 10px 6px; }
+  .hamburger span { width: 18px; }
+  .hamburger.open span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-4px) rotate(-45deg); }
 }
 </style>

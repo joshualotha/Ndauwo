@@ -431,15 +431,54 @@ em { font-style:italic; color: var(--gold); }
   .exp-card--std .exp-card-photo img { height:220px; }
   .intro-strip { flex-direction:column; gap:28px; align-items:flex-start; }
 }
+@media(max-width:1024px) {
+  .hero { padding:0 5% 12vh; }
+  .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+  .hero p { font-size: 1rem; max-width: 100%; }
+  .exp-grid { grid-template-columns: repeat(2,1fr); gap: 20px; }
+  .exp-card--hero { grid-column: span 2; }
+}
 @media(max-width:768px) {
-  .hero h1 { font-size:3.5rem; }
-  .hero { padding:0 5% 14vh; }
+  .hero h1 { font-size: clamp(2rem, 10vw, 3.5rem); }
+  .hero { padding:0 5% 10vh; }
+  .hero p { font-size: 0.95rem; }
   .experiences { padding:60px 4% 80px; }
-  .exp-grid { grid-template-columns:1fr; }
-  .exp-card--hero { grid-template-columns:1fr; min-height:auto; }
-  .exp-card--hero .exp-card-photo { height:280px; overflow:hidden; }
+  .exp-grid { grid-template-columns:1fr; gap: 16px; }
+  .exp-card--hero { grid-column: auto; grid-template-columns:1fr; min-height:auto; }
+  .exp-card--hero .exp-card-photo { height: 240px; overflow:hidden; }
   .exp-card--hero .exp-card-photo img { width:100%; height:100%; }
-  .exp-card-body { padding:32px 28px; }
-  .exp-card--std .exp-card-photo img { height:240px; }
+  .exp-card-body { padding:28px 24px; }
+  .exp-card--std .exp-card-photo img { height:200px; }
+  .exp-card--std .exp-card-body { padding:24px 20px; }
+  .card-category { font-size: 0.7rem; letter-spacing: 0.15em; }
+  .card-title { font-size: 1.3rem; }
+  .card-desc { font-size: 0.95rem; }
+  .intro-strip { gap: 20px; }
+  .strip-title { font-size: 1.5rem; }
+  .strip-desc { font-size: 0.95rem; }
+}
+@media(max-width:640px) {
+  .hero h1 { font-size: 2.5rem; }
+  .hero p { font-size: 0.9rem; }
+  .experiences { padding: 40px 4% 60px; }
+  .exp-card--hero .exp-card-photo { height: 200px; }
+  .exp-card--std .exp-card-photo img { height: 180px; }
+  .card-title { font-size: 1.1rem; }
+  .card-desc { font-size: 0.9rem; }
+  .cta-btn { padding: 14px 28px; font-size: 0.75rem; }
+}
+@media(max-width:480px) {
+  .hero { padding: 0 4% 8vh; }
+  .hero h1 { font-size: 2rem; }
+  .hero p { font-size: 0.85rem; }
+  .experiences { padding: 32px 4% 48px; }
+  .exp-card-body { padding: 20px 16px; }
+  .card-title { font-size: 1rem; }
+  .strip-title { font-size: 1.2rem; }
+}
+@media(max-width:375px) {
+  .hero h1 { font-size: 1.6rem; }
+  .experiences { padding: 24px 4% 40px; }
+  .card-category { font-size: 0.65rem; }
 }
 </style>

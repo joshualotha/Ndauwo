@@ -116,6 +116,37 @@ const router = createRouter({
     }
 })
 
+// Route title mappings for client-side SPA navigation
+const routeTitles = {
+    'home': "Ndauwo — Tanzania's Premier Luxury Safari Experience",
+    'safaris': 'Luxury Tanzania Safari Packages & Tours — Ndauwo',
+    'safari-detail': 'Safari Details — Ndauwo',
+    'safari-types-index': 'Safari Experiences & Styles — Ndauwo',
+    'safari-mountain': 'Mountain Hiking & Kilimanjaro Climbs — Ndauwo',
+    'safari-cultural': 'Cultural Tours & Expeditions — Ndauwo',
+    'safari-luxury': 'Luxury Safari Expeditions — Ndauwo',
+    'safari-tailor': 'Tailor-Made Tanzania Safaris — Ndauwo',
+    'safari-zanzibar': 'Zanzibar Beach Retreats & Safaris — Ndauwo',
+    'safari-group': 'Group Safari Departures — Ndauwo',
+    'destinations': 'Tanzania Safari Destinations — Ndauwo',
+    'destination-detail': 'Destination Guide — Ndauwo',
+    'about': 'About Ndauwo — Tanzania Luxury Safari Company',
+    'planning-accommodation': 'Tanzania Safari Accommodation Guide — Ndauwo',
+    'planning-visa': 'Tanzania Visa & Entry Requirements — Ndauwo',
+    'planning-health': 'Health & Safety Guide for Tanzania Safaris — Ndauwo',
+    'planning-packing': 'Tanzania Safari Packing List — Ndauwo',
+    'planning-etiquette': 'Tanzania Cultural Etiquette Guide — Ndauwo',
+    'conservation': 'Conservation Commitment — Ndauwo',
+    'blog': 'Safari Stories & Tanzania Travel Journal — Ndauwo',
+    'blog-post': 'Safari Story — Ndauwo',
+    'reviews': 'Client Reviews & Testimonials — Ndauwo',
+    'media-kit': 'Press & Media Kit — Ndauwo',
+    'gallery': 'Safari Photo Gallery — Ndauwo',
+    'careers': 'Careers at Ndauwo — Join Our Safari Team',
+    'contact': 'Contact Ndauwo — Plan Your Tanzania Safari',
+    'booking': 'Book Your Tanzania Safari — Ndauwo',
+};
+
 // Navigation Guard
 router.beforeEach((to, from) => {
     const isAuthenticated = !!localStorage.getItem('admin_token');
@@ -125,6 +156,12 @@ router.beforeEach((to, from) => {
     } else if (to.name === 'admin-login' && isAuthenticated) {
         return '/admin/dashboard';
     }
+});
+
+// Update document title on SPA navigation
+router.afterEach((to) => {
+    const title = routeTitles[to.name] || "Ndauwo — Tanzania's Premier Luxury Safari Experience";
+    document.title = title;
 });
 
 export default router
