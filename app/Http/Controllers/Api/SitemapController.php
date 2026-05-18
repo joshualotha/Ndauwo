@@ -51,13 +51,13 @@ class SitemapController extends Controller
             ['loc' => '/destinations', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['loc' => '/journal', 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['loc' => '/about', 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['loc' => '/contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['loc' => '/contact', 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['loc' => '/booking', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['loc' => '/gallery', 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['loc' => '/reviews', 'priority' => '0.6', 'changefreq' => 'weekly'],
+            ['loc' => '/reviews', 'priority' => '0.7', 'changefreq' => 'weekly'],
             ['loc' => '/conservation', 'priority' => '0.6', 'changefreq' => 'monthly'],
             ['loc' => '/press', 'priority' => '0.5', 'changefreq' => 'monthly'],
             ['loc' => '/careers', 'priority' => '0.5', 'changefreq' => 'monthly'],
-            ['loc' => '/booking', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['loc' => '/planning/accommodation-styles', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['loc' => '/planning/visa-entry', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['loc' => '/planning/health-safety', 'priority' => '0.7', 'changefreq' => 'monthly'],
@@ -114,8 +114,8 @@ class SitemapController extends Controller
                 $query->whereNull('published_at')
                       ->orWhere('published_at', '<=', now());
             })
-            ->orderBy('published_at', 'desc')
             ->orWhere('status', 'published')
+            ->orderBy('published_at', 'desc')
             ->get();
         return $this->generateSitemapWithImages($posts, 'journal', '0.7', 'post');
     }

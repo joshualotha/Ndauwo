@@ -116,36 +116,71 @@ const router = createRouter({
     }
 })
 
-// Route title mappings for client-side SPA navigation
-const routeTitles = {
-    'home': "Ndauwo — Tanzania's Premier Luxury Safari Experience",
-    'safaris': 'Luxury Tanzania Safari Packages & Tours — Ndauwo',
-    'safari-detail': 'Safari Details — Ndauwo',
-    'safari-types-index': 'Safari Experiences & Styles — Ndauwo',
-    'safari-mountain': 'Mountain Hiking & Kilimanjaro Climbs — Ndauwo',
-    'safari-cultural': 'Cultural Tours & Expeditions — Ndauwo',
-    'safari-luxury': 'Luxury Safari Expeditions — Ndauwo',
-    'safari-tailor': 'Tailor-Made Tanzania Safaris — Ndauwo',
-    'safari-zanzibar': 'Zanzibar Beach Retreats & Safaris — Ndauwo',
-    'safari-group': 'Group Safari Departures — Ndauwo',
-    'destinations': 'Tanzania Safari Destinations — Ndauwo',
-    'destination-detail': 'Destination Guide — Ndauwo',
-    'about': 'About Ndauwo — Tanzania Luxury Safari Company',
-    'planning-accommodation': 'Tanzania Safari Accommodation Guide — Ndauwo',
-    'planning-visa': 'Tanzania Visa & Entry Requirements — Ndauwo',
-    'planning-health': 'Health & Safety Guide for Tanzania Safaris — Ndauwo',
-    'planning-packing': 'Tanzania Safari Packing List — Ndauwo',
-    'planning-etiquette': 'Tanzania Cultural Etiquette Guide — Ndauwo',
-    'conservation': 'Conservation Commitment — Ndauwo',
-    'blog': 'Safari Stories & Tanzania Travel Journal — Ndauwo',
-    'blog-post': 'Safari Story — Ndauwo',
-    'reviews': 'Client Reviews & Testimonials — Ndauwo',
-    'media-kit': 'Press & Media Kit — Ndauwo',
-    'gallery': 'Safari Photo Gallery — Ndauwo',
-    'careers': 'Careers at Ndauwo — Join Our Safari Team',
-    'contact': 'Contact Ndauwo — Plan Your Tanzania Safari',
-    'booking': 'Book Your Tanzania Safari — Ndauwo',
+// Route metadata for client-side SPA navigation
+const routeMeta = {
+    'home': { title: "Ndauwo — Tanzania's Premier Luxury Safari Experience", description: 'Discover bespoke Tanzania safaris with Ndauwo. Expert-guided luxury expeditions to Serengeti, Ngorongoro, Kilimanjaro & Zanzibar since 2010.' },
+    'safaris': { title: 'Luxury Tanzania Safari Packages & Tours — Ndauwo', description: 'Browse our curated collection of Tanzania safari packages. Tailor-made luxury expeditions, Kilimanjaro climbs, and Zanzibar beach retreats.' },
+    'safari-detail': { title: 'Safari Details — Ndauwo', description: 'Explore this Tanzania safari package in detail.' },
+    'safari-types-index': { title: 'Safari Experiences & Styles — Ndauwo', description: 'Explore Tanzania through our diverse safari experiences: luxury expeditions, cultural tours, mountain hiking, group departures, and Zanzibar retreats.' },
+    'safari-mountain': { title: 'Mountain Hiking & Kilimanjaro Climbs — Ndauwo', description: 'Conquer Africa\'s highest peak with Ndauwo. Expert-guided Kilimanjaro climbs, Mount Meru treks, and Tanzania mountain hiking adventures.' },
+    'safari-cultural': { title: 'Cultural Tours & Expeditions — Ndauwo', description: 'Experience authentic Tanzania through cultural expeditions. Visit Maasai villages, Hadzabe bushmen, and explore Tanzania\'s rich heritage with Ndauwo.' },
+    'safari-luxury': { title: 'Luxury Safari Expeditions — Ndauwo', description: 'Indulge in Tanzania\'s finest luxury safaris. Private guides, premium lodges, and bespoke itineraries across Serengeti, Ngorongoro, and beyond.' },
+    'safari-tailor': { title: 'Tailor-Made Tanzania Safaris — Ndauwo', description: 'Design your perfect Tanzania safari. Our experts craft bespoke itineraries tailored to your interests, schedule, and style of travel.' },
+    'safari-zanzibar': { title: 'Zanzibar Beach Retreats & Safaris — Ndauwo', description: 'Combine world-class safari with Zanzibar\'s pristine beaches. Luxury beach retreats, spice tours, and Indian Ocean adventures with Ndauwo.' },
+    'safari-group': { title: 'Group Safari Departures — Ndauwo', description: 'Join our expertly guided group safari departures. Experience Tanzania\'s wildlife with like-minded adventurers at exceptional value.' },
+    'destinations': { title: 'Tanzania Safari Destinations — Ndauwo', description: 'Explore Tanzania\'s iconic safari destinations: Serengeti, Ngorongoro Crater, Kilimanjaro, Zanzibar, Selous, Ruaha, Tarangire, and more.' },
+    'destination-detail': { title: 'Destination Guide — Ndauwo', description: 'Detailed guide to this Tanzania safari destination.' },
+    'about': { title: 'About Ndauwo — Tanzania Luxury Safari Company', description: 'Ndauwo has been crafting bespoke Tanzania safaris since 2010. Learn about our heritage, conservation commitment, and expert team based in Arusha.' },
+    'planning-accommodation': { title: 'Tanzania Safari Accommodation Guide — Ndauwo', description: 'Compare Tanzania safari accommodation styles: luxury lodges, tented camps, mobile camps, and boutique hotels. Find your perfect safari stay.' },
+    'planning-visa': { title: 'Tanzania Visa & Entry Requirements — Ndauwo', description: 'Complete guide to Tanzania visa requirements, entry regulations, passport validity, and border crossing information for safari travelers.' },
+    'planning-health': { title: 'Health & Safety Guide for Tanzania Safaris — Ndauwo', description: 'Essential health and safety information for Tanzania safari travel: vaccinations, malaria prevention, travel insurance, and emergency protocols.' },
+    'planning-packing': { title: 'Tanzania Safari Packing List — Ndauwo', description: 'Comprehensive Tanzania safari packing guide: clothing, gear, photography equipment, and essentials for your East African adventure.' },
+    'planning-etiquette': { title: 'Tanzania Cultural Etiquette Guide — Ndauwo', description: 'Learn Tanzania cultural etiquette: greetings, dress codes, photography etiquette, tipping customs, and respectful travel practices.' },
+    'conservation': { title: 'Conservation Commitment — Ndauwo', description: 'Ndauwo is committed to preserving Tanzania\'s wildlife and empowering local communities. Learn about our conservation initiatives.' },
+    'blog': { title: 'Safari Stories & Tanzania Travel Journal — Ndauwo', description: 'Read expert Tanzania travel guides, safari stories, conservation updates, and insider tips from Ndauwo\'s field team in Arusha.' },
+    'blog-post': { title: 'Safari Story — Ndauwo', description: 'Read this Tanzania safari story from Ndauwo\'s travel journal.' },
+    'reviews': { title: 'Client Reviews & Testimonials — Ndauwo', description: 'Read what our guests say about their Ndauwo Tanzania safari experiences. Real reviews from discerning travelers worldwide.' },
+    'media-kit': { title: 'Press & Media Kit — Ndauwo', description: 'Download Ndauwo\'s media kit, press releases, high-resolution images, and brand assets for editorial use.' },
+    'gallery': { title: 'Safari Photo Gallery — Ndauwo', description: 'Browse stunning photography from Ndauwo\'s Tanzania safaris. Wildlife, landscapes, lodges, and unforgettable moments captured across East Africa.' },
+    'careers': { title: 'Careers at Ndauwo — Join Our Safari Team', description: 'Explore career opportunities with Ndauwo Safari Co. Join our team of passionate safari guides, conservationists, and hospitality professionals.' },
+    'contact': { title: 'Contact Ndauwo — Plan Your Tanzania Safari', description: 'Get in touch with Ndauwo\'s safari experts. We\'ll help you plan the perfect Tanzania luxury expedition tailored to your dreams.' },
+    'booking': { title: 'Book Your Tanzania Safari — Ndauwo', description: 'Ready to book your dream Tanzania safari? Contact Ndauwo\'s expert team to reserve your luxury expedition, Kilimanjaro climb, or Zanzibar retreat.' },
 };
+
+// Update HTML head meta tags on SPA navigation
+function updateMetaTags(meta) {
+    const defaults = {
+        title: "Ndauwo — Tanzania's Premier Luxury Safari Experience",
+        description: 'Discover bespoke Tanzania safaris with Ndauwo. Expert-guided luxury expeditions to Serengeti, Ngorongoro, Kilimanjaro & Zanzibar since 2010.',
+    };
+    const { title, description } = { ...defaults, ...meta };
+
+    document.title = title;
+
+    // Update meta description
+    let descEl = document.querySelector('meta[name="description"]');
+    if (descEl) descEl.setAttribute('content', description);
+
+    // Update OG title
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', title);
+
+    // Update OG description
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', description);
+
+    // Update Twitter title
+    let twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', title);
+
+    // Update Twitter description
+    let twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', description);
+
+    // Update canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', window.location.origin + window.location.pathname);
+}
 
 // Navigation Guard
 router.beforeEach((to, from) => {
@@ -158,10 +193,10 @@ router.beforeEach((to, from) => {
     }
 });
 
-// Update document title on SPA navigation
+// Update HTML head meta tags on SPA navigation
 router.afterEach((to) => {
-    const title = routeTitles[to.name] || "Ndauwo — Tanzania's Premier Luxury Safari Experience";
-    document.title = title;
+    const meta = routeMeta[to.name] || routeMeta['home'];
+    updateMetaTags(meta);
 });
 
 export default router

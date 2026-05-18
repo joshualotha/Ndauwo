@@ -220,17 +220,28 @@ class SeoService
 
     /**
      * Resolve the OG image URL.
-     * Priority: model image > route config > default.
+     * Priority: model image > settings seo_og_image > route config > default.
      */
     protected function resolveOgImage(?array $routeConfig): string
     {
         if ($this->currentModel && !empty($this->currentModel->image)) {
             $image = $this->currentModel->image;
-            // Handle storage paths
             if (!str_starts_with($image, 'http') && !str_starts_with($image, '/')) {
                 return asset('storage/' . $image);
             }
             return asset($image);
+        }
+
+        // Check settings for custom OG image
+        $ogImage = $this->getSetting('seo_og_image');
+        if (!empty($ogImage)) {
+            if (str_starts_with($ogImage, 'http')) {
+                return $ogImage;
+            }
+            if (str_starts_with($ogImage, '/')) {
+                return asset($ogImage);
+            }
+            return asset('storage/' . $ogImage);
         }
 
         return asset(config('seo.default_og_image'));
@@ -269,39 +280,102 @@ class SeoService
             }
         }
 
+        // FAQ schema on planning/pages
+        if (str_contains($path, '/planning/')) {
+            $faqs = $this->getFaqsForPath($path);
+            if (!empty($faqs)) {
+                $scripts[] = $this->faqSchema($faqs);
+            }
+        }
+
+        // AggregateRating on reviews page
+        if ($path === '/reviews') {
+            $rating = (float) $this->getSetting('seo_aggregate_rating', '4.9');
+            $reviewCount = (int) $this->getSetting('seo_review_count', '312');
+            $scripts[] = $this->aggregateRatingSchema($rating, $reviewCount);
+        }
+
+        // AggregateRating on home page
+        if ($path === '/') {
+            $rating = (float) $this->getSetting('seo_aggregate_rating', '4.9');
+            $reviewCount = (int) $this->getSetting('seo_review_count', '312');
+            $scripts[] = $this->aggregateRatingSchema($rating, $reviewCount);
+        }
+
         return implode("\n", $scripts);
     }
 
     /**
-     * Generate TourOperator / Organization schema.
+     * Generate combined TourOperator + LocalBusiness schema.
+     * Dual-type for enhanced local SEO and Google Business Profile matching.
      */
     protected function organizationSchema(): string
     {
         $socialProfiles = $this->getSocialProfiles();
+        $phone = $this->getSetting('contact_phone', '+255-XXX-XXX-XXX');
+        $addressStreet = $this->getSetting('office_address', 'Arusha Safari Centre');
+        $rating = (float) $this->getSetting('seo_aggregate_rating', '4.9');
+        $reviewCount = (int) $this->getSetting('seo_review_count', '312');
+        $priceRange = $this->getSetting('seo_price_range', '$$$');
 
         $data = [
             '@context' => 'https://schema.org',
-            '@type' => 'TourOperator',
+            '@type' => ['TourOperator', 'LocalBusiness'],
             '@id' => URL::to('/') . '#organization',
             'name' => config('seo.site_name'),
+            'alternateName' => 'Ndauwo Safaris',
             'url' => URL::to('/'),
             'logo' => [
                 '@type' => 'ImageObject',
                 'url' => asset(config('seo.default_og_image')),
             ],
+            'image' => asset(config('seo.default_og_image')),
             'description' => config('seo.default_description'),
+            'telephone' => $phone,
+            'priceRange' => $priceRange,
+            'email' => $this->getSetting('contact_email', 'info@ndauwo.com'),
             'address' => [
                 '@type' => 'PostalAddress',
+                'streetAddress' => $addressStreet,
                 'addressLocality' => 'Arusha',
+                'addressRegion' => 'Arusha Region',
+                'postalCode' => $this->getSetting('seo_postal_code', '23000'),
                 'addressCountry' => 'TZ',
+            ],
+            'geo' => [
+                '@type' => 'GeoCoordinates',
+                'latitude' => (float) $this->getSetting('gps_lat', '-3.3869'),
+                'longitude' => (float) $this->getSetting('gps_lng', '36.6830'),
+            ],
+            'openingHoursSpecification' => [
+                [
+                    '@type' => 'OpeningHoursSpecification',
+                    'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                    'opens' => '08:00',
+                    'closes' => '17:00',
+                ],
+                [
+                    '@type' => 'OpeningHoursSpecification',
+                    'dayOfWeek' => 'Saturday',
+                    'opens' => '09:00',
+                    'closes' => '14:00',
+                ],
             ],
             'contactPoint' => [
                 '@type' => 'ContactPoint',
                 'contactType' => 'customer service',
-                'telephone' => $this->getSetting('contact_phone', '+255-XXX-XXX-XXX'),
-                'availableLanguage' => ['English', 'Swahili'],
+                'telephone' => $phone,
+                'email' => $this->getSetting('contact_email', 'info@ndauwo.com'),
+                'availableLanguage' => ['English', 'Swahili', 'German', 'French'],
             ],
             'sameAs' => $socialProfiles,
+            'aggregateRating' => [
+                '@type' => 'AggregateRating',
+                'ratingValue' => $rating,
+                'bestRating' => 5,
+                'worstRating' => 1,
+                'ratingCount' => $reviewCount,
+            ],
         ];
 
         return $this->toJsonLd($data);
@@ -620,6 +694,108 @@ class SeoService
         ];
 
         return $this->toJsonLd($data);
+    }
+
+    /**
+     * Get FAQ data for a specific planning path.
+     * Returns array of ['question' => ..., 'answer' => ...] pairs.
+     */
+    protected function getFaqsForPath(string $path): array
+    {
+        $faqs = [
+            '/planning/accommodation-styles' => [
+                [
+                    'question' => 'What types of accommodation are available on a Tanzania safari?',
+                    'answer' => 'Tanzania safari accommodations range from luxury lodges and tented camps to mobile camps and budget-friendly options. Ndauwo offers all categories, from premium permanent lodges in Serengeti to intimate mobile camps that move with the Great Migration.',
+                ],
+                [
+                    'question' => 'What is the difference between a tented camp and a lodge?',
+                    'answer' => 'Tented camps offer a more immersive bush experience with canvas walls that bring you closer to nature, while lodges provide permanent stone-and-thatch structures with more amenities. Both offer en-suite bathrooms, comfortable beds, and excellent service.',
+                ],
+                [
+                    'question' => 'Are luxury safari tents safe from wildlife?',
+                    'answer' => 'Yes. Luxury tented camps are designed with safety as a priority. They are fenced or have natural barriers, and askaris (security guards) escort guests to their tents after dark. The tent fabric is heavy-duty, and all zippers secure from inside.',
+                ],
+                [
+                    'question' => 'Can I combine different accommodation styles on one safari?',
+                    'answer' => 'Absolutely. Many Ndauwo guests combine a few nights in a luxury lodge with mobile tented camping for varied experiences. This is a popular way to enjoy both comfort and wilderness immersion on the same trip.',
+                ],
+            ],
+            '/planning/visa-entry' => [
+                [
+                    'question' => 'Do I need a visa for a Tanzania safari?',
+                    'answer' => 'Most nationalities require a visa for Tanzania. Citizens of the USA, UK, Canada, Australia, and most European countries can obtain a visa on arrival at Kilimanjaro International Airport or apply online for an e-Visa before travel.',
+                ],
+                [
+                    'question' => 'How long does a Tanzania tourist visa last?',
+                    'answer' => 'A standard Tanzania tourist visa is valid for 90 days from the date of issue and allows a single entry. Multi-entry visas are available for specific circumstances.',
+                ],
+                [
+                    'question' => 'Can I get a visa on arrival at Kilimanjaro Airport?',
+                    'answer' => 'Yes. Visas on arrival are available at Kilimanjaro International Airport (JRO), Julius Nyerere International Airport (DAR), and all official border crossings. You\'ll need a valid passport (6+ months validity), a return ticket, and the visa fee in cash (USD).',
+                ],
+                [
+                    'question' => 'Do I need a yellow fever vaccination for Tanzania?',
+                    'answer' => 'A yellow fever vaccination certificate is required if you are arriving from a country with yellow fever risk. Otherwise, it is not mandatory but is highly recommended by health authorities.',
+                ],
+            ],
+            '/planning/health-safety' => [
+                [
+                    'question' => 'Is Tanzania safe for safari travelers?',
+                    'answer' => 'Yes. Tanzania is one of Africa\'s safest safari destinations. Wildlife areas are well-regulated by park authorities, and Ndauwo\'s expert guides prioritize guest safety at all times. Crime against tourists is rare in safari areas.',
+                ],
+                [
+                    'question' => 'What vaccinations do I need for a Tanzania safari?',
+                    'answer' => 'Recommended vaccinations include Hepatitis A, Typhoid, Tetanus, and Yellow Fever (if traveling from an endemic country). Malaria prophylaxis is strongly recommended. Consult your travel doctor 4-6 weeks before departure.',
+                ],
+                [
+                    'question' => 'Do I need malaria medication for a Serengeti safari?',
+                    'answer' => 'Yes. Malaria is present in Tanzania\'s low-lying areas including Serengeti and Ngorongoro. We strongly recommend antimalarial medication combined with mosquito repellent, long sleeves at dusk, and treated bed nets provided by all Ndauwo camps and lodges.',
+                ],
+                [
+                    'question' => 'Is travel insurance mandatory for Tanzania safaris?',
+                    'answer' => 'While not legally mandatory, comprehensive travel insurance is required for all Ndauwo safaris. It must cover medical evacuation, trip cancellation, and baggage loss. We recommend policies that specifically cover wildlife safari activities.',
+                ],
+            ],
+            '/planning/packing-list' => [
+                [
+                    'question' => 'What should I pack for a Tanzania safari?',
+                    'answer' => 'Essential safari packing includes lightweight neutral-colored clothing (khaki, olive, beige), a warm jacket for morning game drives, comfortable walking shoes, a wide-brimmed hat, sunglasses, sunscreen, insect repellent, binoculars, camera gear, and a reusable water bottle.',
+                ],
+                [
+                    'question' => 'What colors should I avoid wearing on safari?',
+                    'answer' => 'Avoid bright colors (red, yellow, white) and dark blue (attracts tsetse flies). Stick to neutral earth tones like khaki, olive, beige, and brown. These colors help you blend into the environment and improve wildlife viewing.',
+                ],
+                [
+                    'question' => 'Do I need formal wear for safari lodges?',
+                    'answer' => 'No. Safari lodges and camps are relaxed and casual. Smart-casual attire is fine for dinner. Some premium lodges may request long trousers for men at dinner, but jackets and ties are never required.',
+                ],
+                [
+                    'question' => 'What camera equipment is best for safari photography?',
+                    'answer' => 'A DSLR or mirrorless camera with a telephoto zoom lens (100-400mm or 200-500mm) is ideal. Bring extra memory cards (minimum 128GB total), a lens cleaning kit, and a beanbag or monopod for stability in vehicles. Smartphone cameras with 3x+ optical zoom can also capture excellent images.',
+                ],
+            ],
+            '/planning/cultural-etiquette' => [
+                [
+                    'question' => 'How should I greet Maasai or local Tanzanians?',
+                    'answer' => 'A simple handshake with a warm smile is the standard greeting. For elders or respected community members, using your right hand while touching your left forearm is a sign of respect. Learn "Jambo" (hello) and "Asante" (thank you) in Swahili.',
+                ],
+                [
+                    'question' => 'Can I take photos of local people in Tanzania?',
+                    'answer' => 'Always ask permission before photographing people. Some Maasai villages may charge a small fee for photography. Ndauwo guides will facilitate respectful interactions and help you understand local photography customs.',
+                ],
+                [
+                    'question' => 'What is the tipping etiquette on a Tanzania safari?',
+                    'answer' => 'Tipping is customary for safari guides, camp staff, and drivers. Recommended amounts: $15-20 per guest per day for your guide, $10-15 per guest per day for camp staff. Tips are appreciated but not mandatory. Ndauwo provides detailed tipping guidelines in your pre-departure materials.',
+                ],
+                [
+                    'question' => 'What should I wear when visiting local villages?',
+                    'answer' => 'Dress modestly when visiting villages. Both men and women should cover shoulders and knees. Revealing clothing is considered disrespectful. Lightweight, breathable fabrics are recommended for the climate.',
+                ],
+            ],
+        ];
+
+        return $faqs[$path] ?? [];
     }
 
     /**

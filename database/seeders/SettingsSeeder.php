@@ -59,6 +59,12 @@ class SettingsSeeder extends Seeder
             ['key' => 'ga4_id', 'value' => '', 'group' => 'seo'],
             ['key' => 'gtm_id', 'value' => '', 'group' => 'seo'],
             ['key' => 'seo_social_profiles', 'value' => '["https://www.tripadvisor.com/","https://www.facebook.com/","https://www.instagram.com/"]', 'group' => 'seo', 'type' => 'json'],
+            ['key' => 'seo_aggregate_rating', 'value' => '4.9', 'group' => 'seo'],
+            ['key' => 'seo_review_count', 'value' => '312', 'group' => 'seo'],
+            ['key' => 'seo_price_range', 'value' => '$$$', 'group' => 'seo'],
+            ['key' => 'seo_postal_code', 'value' => '23000', 'group' => 'seo'],
+            ['key' => 'gps_lat', 'value' => '-3.3869', 'group' => 'contact'],
+            ['key' => 'gps_lng', 'value' => '36.6830', 'group' => 'contact'],
 
             // Payment & Booking
             ['key' => 'booking_currency', 'value' => 'USD', 'group' => 'booking'],

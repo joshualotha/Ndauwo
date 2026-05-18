@@ -112,5 +112,19 @@ return [
             'title' => 'Tanzania Cultural Etiquette Guide — Ndauwo',
             'description' => 'Learn Tanzania cultural etiquette: greetings, dress codes, photography etiquette, tipping customs, and respectful travel practices.',
         ],
+
+        // Missing route configs
+        '/booking' => [
+            'title' => 'Book Your Tanzania Safari — Ndauwo',
+            'description' => 'Ready to book your dream Tanzania safari? Contact Ndauwo\'s expert team to reserve your luxury expedition, Kilimanjaro climb, or Zanzibar retreat.',
+        ],
+        '/privacy' => [
+            'title' => 'Privacy Policy — Ndauwo Safari Co.',
+            'description' => 'Ndauwo Safari Co. privacy policy. Learn how we collect, use, and protect your personal information when you book a Tanzania safari with us.',
+        ],
+        '/terms' => [
+            'title' => 'Terms & Conditions — Ndauwo Safari Co.',
+            'description' => 'Ndauwo Safari Co. terms and conditions for Tanzania safari bookings, payments, cancellations, and traveler responsibilities.',
+        ],
     ],
 ];
